@@ -1,3 +1,26 @@
+# E source read reuse passes; measure whole-product capacity — 2026-10-24
+
+Same Master/branch; latest main refetched unchanged7d1f447. Private exact-epoch
+cache carries opaque immutable raw predecessor/chain coverage; actual next
+physical link checked once, original standalone full reader unchanged. All
+original operations still fully checked; later metadata inventories no longer
+repeat historical financial decoding. No wire/semantic/authority/limit changes.
+330storage and50overlapping scope PASS;29encoded/worker/snapshot cases pass in
+command with one loader typo, correct5gate cases PASS serial. Retained concurrent
+fixture scope refusals; do not parallelize these source fixtures with shared ID.
+
+Actual838operation cold readonly snapshot audit7.109s/47.7MBpeak/0writes and exact
+source SHA unchanged. Not a speed ratio to prior concurrent82s workload; no
+30day/native/elapsed/selected-policy credit. Next actual3600second full256owner
+growth diagnostic: include all SQLite tables/indexes/WAL and management latency.
+Do not edit source while actual source/child-provenance measurement runs. Current
+default legacy; no ordinary encoded rollout until whole capacity/new native pass.
+All emergency ticker, original policy/research/admission/new native/targetUbuntu/
+cloud/time gates remain. Public20/19unchanged/private0/capitalNONE/observationNONE.
+Evidence: status/codex/productization/S16/recorded-funding-implementation-20261021/e6-source-owned-read-reuse/disposition.json
+
+---
+
 # E resource baseline: full256/keyframes/protection recover; optimize cold audit — 2026-10-24
 
 Source a189797f; all five exact source hashes in evidence. Actual full2564h cache,

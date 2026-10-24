@@ -5,6 +5,7 @@ exact predecessor hash; decoding traverses at most127 deltas. The E6 caller stil
 validates complete broker/runtime state and owns transactions/audit/admission.
 """
 import base64
+from dataclasses import dataclass,field
 import hashlib
 import json
 import re
@@ -18,6 +19,27 @@ MAX_DELTA_PAYLOAD=64*1024
 MAX_CHAIN_BYTES=32*1024**2
 _HASH=re.compile(r'sha256:[0-9a-f]{64}\Z')
 _FIELDS={'codec','run_id','revision','kind','payload_bytes','payload_hash','data'}
+_READ_RECORD_ISSUER=object()
+
+
+@dataclass(frozen=True,slots=True,init=False)
+class _ReadRecord:
+    """Opaque immutable codec data, not an E6 history/financial permission."""
+    state_json:str
+    run_id:str
+    revision:int
+    state_hash:str
+    chain_links:int
+    chain_payload_bytes:int
+    _issuer:object=field(repr=False,compare=False)
+
+
+def _read_record(raw,run_id,revision,state_hash,links,payload_bytes):
+    value=object.__new__(_ReadRecord)
+    for key,item in dict(state_json=raw,run_id=run_id,revision=revision,state_hash=state_hash,
+            chain_links=links,chain_payload_bytes=payload_bytes,_issuer=_READ_RECORD_ISSUER).items():
+        object.__setattr__(value,key,item)
+    return value
 
 
 def _fail(reason):raise ValueError('PAPER_STATE_CODEC_'+reason)
@@ -186,8 +208,8 @@ def _unpack(encoded,run_id,revision):
     return value,parsed,text
 
 
-def decode_state(encoded,*,run_id,revision,expected_hash,read_previous):
-    """Reconstruct exact logical JSON, validating every bounded chain link."""
+def decode_state_record(encoded,*,run_id,revision,expected_hash,read_previous):
+    """Validate every original link and return opaque bounded-chain data."""
     _identity(run_id,revision)
     if type(expected_hash) is not str or not _HASH.fullmatch(expected_hash) or not callable(read_previous):_fail('HASH_OR_READER_INVALID')
     chain=[];current=encoded;wanted=expected_hash;at=revision;chain_bytes=0
@@ -210,7 +232,39 @@ def decode_state(encoded,*,run_id,revision,expected_hash,read_previous):
         _pure(state);raw=_canonical(state)
         if type(state) is not dict or _digest(raw)!=wanted:_fail('STATE_HASH_MISMATCH')
         result=raw.decode('utf-8')
-    return result
+    return _read_record(result,run_id,revision,expected_hash,len(chain),chain_bytes)
+
+
+def decode_state(encoded,*,run_id,revision,expected_hash,read_previous):
+    """Standalone reconstruction still validates every original bounded link."""
+    return decode_state_record(encoded,run_id=run_id,revision=revision,
+        expected_hash=expected_hash,read_previous=read_previous).state_json
+
+
+def extend_state_record(encoded,*,run_id,revision,expected_hash,previous):
+    """Verify one next physical link after an actual source-verified base.
+
+    E6 may use this only for its OWN exact-epoch immutable byte cache. There is
+    no serialized record import or persistent proof; this pure result grants no
+    permission. Fresh standalone readers still traverse their complete chain.
+    """
+    _identity(run_id,revision)
+    if type(expected_hash) is not str or not _HASH.fullmatch(expected_hash):_fail('HASH_OR_READER_INVALID')
+    envelope,value,text=_unpack(encoded,run_id,revision)
+    links=1;payload_bytes=envelope['payload_bytes']
+    if envelope['kind']=='DELTA':
+        if (type(previous) is not _ReadRecord or getattr(previous,'_issuer',None) is not _READ_RECORD_ISSUER
+                or previous.run_id!=run_id or previous.revision!=revision-1
+                or previous.state_hash!=envelope['base_hash']):_fail('BASE_INVALID')
+        base,raw=_logical(previous.state_json)
+        if _digest(raw)!=previous.state_hash:_fail('BASE_INVALID')
+        links+=previous.chain_links;payload_bytes+=previous.chain_payload_bytes
+        if links>KEYFRAME_INTERVAL:_fail('CHAIN_LIMIT')
+        value=_apply(base,value)
+    if payload_bytes>MAX_CHAIN_BYTES:_fail('CHAIN_BYTES_LIMIT')
+    _pure(value);raw=_canonical(value)
+    if type(value) is not dict or _digest(raw)!=expected_hash:_fail('STATE_HASH_MISMATCH')
+    return _read_record(raw.decode('utf-8'),run_id,revision,expected_hash,links,payload_bytes)
 
 
 def verify_write_state(encoded,*,run_id,revision,expected_hash,previous_raw=None):

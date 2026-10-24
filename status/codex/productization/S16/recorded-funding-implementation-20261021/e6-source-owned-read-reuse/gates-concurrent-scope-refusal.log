@@ -1,0 +1,165 @@
+test_normal_service_drives_owned_audit_after_management_and_control_remains_last_known (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_normal_service_drives_owned_audit_after_management_and_control_remains_last_known) ... ERROR
+test_successor_cannot_inherit_saved_verified_diagnostic_or_fill_prior_entry (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_successor_cannot_inherit_saved_verified_diagnostic_or_fill_prior_entry) ... ERROR
+test_unaudited_current_snapshot_cannot_submit_entry_or_credit_healthy_forward (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_unaudited_current_snapshot_cannot_submit_entry_or_credit_healthy_forward) ... ERROR
+test_unknown_history_mutation_inhibits_credit_but_existing_protection_exit_and_pending_continue (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_unknown_history_mutation_inhibits_credit_but_existing_protection_exit_and_pending_continue) ... ERROR
+test_verified_history_uses_bounded_current_reads_and_retains_actual_entry_and_protection (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_verified_history_uses_bounded_current_reads_and_retains_actual_entry_and_protection) ... ERROR
+
+======================================================================
+ERROR: test_normal_service_drives_owned_audit_after_management_and_control_remains_last_known (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_normal_service_drives_owned_audit_after_management_and_control_remains_last_known)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_history_gates.py", line 18, in setUp
+    self.case.prepare()
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_recorded_funding.py", line 30, in prepare
+    self.h,self.config,self.local,self.clock,_,_=helper.prepare(simulation=recorded_policy(),private_data=True,
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_ordinary_paper_composition.py", line 53, in prepare
+    h.configure()
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_research_setup_flow.py", line 88, in configure
+    return self.call(['configure-research','--config',str(self.config_path),'--selection-profile',str(self.profile)])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\cli.py", line 443, in main
+    print(json.dumps(configure_research(args.config, args.selection_profile), ensure_ascii=False))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\research\setup.py", line 53, in configure_research
+    stack.enter_context(ProcessScopeLock(role+':'+config.product_instance_id,lock_root=operational_lock_root(config)))
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\contextlib.py", line 526, in enter_context
+    result = _enter(cm)
+             ^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\platform\scope_lock.py", line 113, in __enter__
+    self._windows_acquire()
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\platform\scope_lock.py", line 66, in _windows_acquire
+    raise ScopeBusy('Local process scope is already owned')
+application.platform.scope_lock.ScopeBusy: Local process scope is already owned
+
+======================================================================
+ERROR: test_successor_cannot_inherit_saved_verified_diagnostic_or_fill_prior_entry (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_successor_cannot_inherit_saved_verified_diagnostic_or_fill_prior_entry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_history_gates.py", line 18, in setUp
+    self.case.prepare()
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_recorded_funding.py", line 30, in prepare
+    self.h,self.config,self.local,self.clock,_,_=helper.prepare(simulation=recorded_policy(),private_data=True,
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_ordinary_paper_composition.py", line 53, in prepare
+    h.configure()
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_research_setup_flow.py", line 88, in configure
+    return self.call(['configure-research','--config',str(self.config_path),'--selection-profile',str(self.profile)])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\cli.py", line 443, in main
+    print(json.dumps(configure_research(args.config, args.selection_profile), ensure_ascii=False))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\research\setup.py", line 53, in configure_research
+    stack.enter_context(ProcessScopeLock(role+':'+config.product_instance_id,lock_root=operational_lock_root(config)))
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\contextlib.py", line 526, in enter_context
+    result = _enter(cm)
+             ^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\platform\scope_lock.py", line 113, in __enter__
+    self._windows_acquire()
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\platform\scope_lock.py", line 66, in _windows_acquire
+    raise ScopeBusy('Local process scope is already owned')
+application.platform.scope_lock.ScopeBusy: Local process scope is already owned
+
+======================================================================
+ERROR: test_unaudited_current_snapshot_cannot_submit_entry_or_credit_healthy_forward (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_unaudited_current_snapshot_cannot_submit_entry_or_credit_healthy_forward)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_history_gates.py", line 18, in setUp
+    self.case.prepare()
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_recorded_funding.py", line 30, in prepare
+    self.h,self.config,self.local,self.clock,_,_=helper.prepare(simulation=recorded_policy(),private_data=True,
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_ordinary_paper_composition.py", line 53, in prepare
+    h.configure()
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_research_setup_flow.py", line 88, in configure
+    return self.call(['configure-research','--config',str(self.config_path),'--selection-profile',str(self.profile)])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\cli.py", line 443, in main
+    print(json.dumps(configure_research(args.config, args.selection_profile), ensure_ascii=False))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\research\setup.py", line 53, in configure_research
+    stack.enter_context(ProcessScopeLock(role+':'+config.product_instance_id,lock_root=operational_lock_root(config)))
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\contextlib.py", line 526, in enter_context
+    result = _enter(cm)
+             ^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\platform\scope_lock.py", line 113, in __enter__
+    self._windows_acquire()
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\platform\scope_lock.py", line 66, in _windows_acquire
+    raise ScopeBusy('Local process scope is already owned')
+application.platform.scope_lock.ScopeBusy: Local process scope is already owned
+
+======================================================================
+ERROR: test_unknown_history_mutation_inhibits_credit_but_existing_protection_exit_and_pending_continue (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_unknown_history_mutation_inhibits_credit_but_existing_protection_exit_and_pending_continue)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_history_gates.py", line 18, in setUp
+    self.case.prepare()
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_recorded_funding.py", line 30, in prepare
+    self.h,self.config,self.local,self.clock,_,_=helper.prepare(simulation=recorded_policy(),private_data=True,
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_ordinary_paper_composition.py", line 53, in prepare
+    h.configure()
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_research_setup_flow.py", line 88, in configure
+    return self.call(['configure-research','--config',str(self.config_path),'--selection-profile',str(self.profile)])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\cli.py", line 443, in main
+    print(json.dumps(configure_research(args.config, args.selection_profile), ensure_ascii=False))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\research\setup.py", line 53, in configure_research
+    stack.enter_context(ProcessScopeLock(role+':'+config.product_instance_id,lock_root=operational_lock_root(config)))
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\contextlib.py", line 526, in enter_context
+    result = _enter(cm)
+             ^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\platform\scope_lock.py", line 113, in __enter__
+    self._windows_acquire()
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\platform\scope_lock.py", line 66, in _windows_acquire
+    raise ScopeBusy('Local process scope is already owned')
+application.platform.scope_lock.ScopeBusy: Local process scope is already owned
+
+======================================================================
+ERROR: test_verified_history_uses_bounded_current_reads_and_retains_actual_entry_and_protection (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_verified_history_uses_bounded_current_reads_and_retains_actual_entry_and_protection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_history_gates.py", line 18, in setUp
+    self.case.prepare()
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_recorded_funding.py", line 30, in prepare
+    self.h,self.config,self.local,self.clock,_,_=helper.prepare(simulation=recorded_policy(),private_data=True,
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_ordinary_paper_composition.py", line 53, in prepare
+    h.configure()
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_research_setup_flow.py", line 88, in configure
+    return self.call(['configure-research','--config',str(self.config_path),'--selection-profile',str(self.profile)])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\cli.py", line 443, in main
+    print(json.dumps(configure_research(args.config, args.selection_profile), ensure_ascii=False))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\research\setup.py", line 53, in configure_research
+    stack.enter_context(ProcessScopeLock(role+':'+config.product_instance_id,lock_root=operational_lock_root(config)))
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\contextlib.py", line 526, in enter_context
+    result = _enter(cm)
+             ^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\platform\scope_lock.py", line 113, in __enter__
+    self._windows_acquire()
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\platform\scope_lock.py", line 66, in _windows_acquire
+    raise ScopeBusy('Local process scope is already owned')
+application.platform.scope_lock.ScopeBusy: Local process scope is already owned
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.597s
+
+FAILED (errors=5)

@@ -1,0 +1,15 @@
+test_keyframe_continuation_enforces_the_same_total_payload_budget (tests.storage.test_paper_codec_read_records.PaperCodecReadRecordTests.test_keyframe_continuation_enforces_the_same_total_payload_budget) ... FAIL
+
+======================================================================
+FAIL: test_keyframe_continuation_enforces_the_same_total_payload_budget (tests.storage.test_paper_codec_read_records.PaperCodecReadRecordTests.test_keyframe_continuation_enforces_the_same_total_payload_budget)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_codec_read_records.py", line 77, in test_keyframe_continuation_enforces_the_same_total_payload_budget
+    with self.assertRaises(ValueError):codec.extend_state_record(encoded,run_id='run-1',revision=0,
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (failures=1)

@@ -259,33 +259,61 @@ class PaperHistoryAudit:
                 or current.outcome_json!=original.outcome_json or current.effect_hash!=original.effect_hash):_invalid()
         return original
 
+    def _verified_operation_refs(self,state,operation_id):
+        """Inventory links AFTER every original operation's bytes were checked.
+
+        The exact source snapshot/qualified immutable epoch is still mandatory.
+        Unknown writes discard this state before another phase may use it. This
+        independently checks orphan inventories without decoding old bytes again.
+        """
+        if state.phase==0 or state.counts['OPERATIONS']!=state.expected['OPERATIONS']:_invalid()
+        row=self.db.execute('''SELECT o.base_revision,e.checkpoint_revision,e.effect_hash,
+            p.effect_hash AS published_hash FROM paper_process_operations o
+            LEFT JOIN paper_process_effects e USING(run_id,operation_id)
+            LEFT JOIN paper_process_publications p USING(run_id,operation_id)
+            WHERE o.run_id=? AND o.operation_id=?''',(state.run_id,operation_id)).fetchone()
+        if row is None:_invalid()
+        if row['published_hash'] is not None and row['published_hash']!=row['effect_hash']:_invalid()
+        original=state.original_pending.get(operation_id)
+        if original is not None:
+            if (row['base_revision']!=original.base_revision or original.status=='APPLIED' and
+                    (row['checkpoint_revision']!=original.checkpoint_revision or row['effect_hash']!=original.effect_hash)):_invalid()
+            return dict(status=original.status,base_revision=original.base_revision,
+                checkpoint_revision=original.checkpoint_revision,effect_hash=original.effect_hash)
+        return dict(status='PREPARED' if row['checkpoint_revision'] is None else
+            'APPLIED' if row['published_hash'] is None else 'PUBLISHED',base_revision=row['base_revision'],
+            checkpoint_revision=row['checkpoint_revision'],effect_hash=row['effect_hash'])
+
     def _check(self,state,row):
         phase=_PHASES[state.phase];before=state.counts[phase]
         if phase=='PUBLICATIONS':
-            operation_id=_text(row['operation_id']);operation=self.journal.operation(state.run_id,operation_id)
-            if (operation is None or operation.status!='PUBLISHED' or operation.effect_hash!=row['effect_hash']
-                    or not 1<=operation.checkpoint_revision<=state.target):_invalid()
+            operation_id=_text(row['operation_id']);operation=self._verified_operation_refs(state,operation_id)
+            if (operation['status']!='PUBLISHED' or operation['effect_hash']!=row['effect_hash']
+                    or type(operation['checkpoint_revision']) is not int
+                    or not 1<=operation['checkpoint_revision']<=state.target):_invalid()
             state.cursors[phase]=operation_id
         else:
             sequence=row['sequence']
             if type(sequence) is not int or sequence<0:_invalid()
             if phase in ('OPERATIONS','EFFECTS'):
-                operation_id=_text(row['operation_id']);operation=self._original_operation(state,operation_id)
-                if operation is None:_invalid()
+                operation_id=_text(row['operation_id'])
                 if phase=='OPERATIONS':
                     if sequence!=before:_invalid()
+                    operation=self._original_operation(state,operation_id)
+                    if operation is None:_invalid()
                     self.journal._prefixes.audit_operation(state.prefix,operation)
-                elif (sequence!=before+1 or operation.status not in ('APPLIED','PUBLISHED')
-                        or operation.checkpoint_revision!=sequence):_invalid()
+                else:
+                    operation=self._verified_operation_refs(state,operation_id)
+                    if (sequence!=before+1 or operation['status'] not in ('APPLIED','PUBLISHED')
+                            or operation['checkpoint_revision']!=sequence or operation['base_revision']!=sequence-1):_invalid()
                 state.cursors[phase]=(sequence,operation_id)
             elif phase=='CHECKPOINTS':
                 if sequence!=before:_invalid()
-                checkpoint=self.journal._checkpoint(state.run_id,sequence)
                 if sequence==0:
                     if row['operation_id'] is not None:_invalid()
                 else:
-                    operation=self._original_operation(state,_text(row['operation_id']))
-                    if operation is None or operation.checkpoint_revision!=sequence or operation.state_json!=checkpoint['state_json']:_invalid()
+                    operation=self._verified_operation_refs(state,_text(row['operation_id']))
+                    if operation['checkpoint_revision']!=sequence or operation['base_revision']!=sequence-1:_invalid()
                 state.cursors[phase]=sequence
             elif phase=='PREFIXES':
                 if sequence!=before or sequence>state.target:_invalid()

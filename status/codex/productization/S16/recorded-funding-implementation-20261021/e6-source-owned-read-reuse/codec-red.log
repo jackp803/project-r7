@@ -1,0 +1,41 @@
+test_accumulated_budget_and_wrong_full_hash_still_refuse (tests.storage.test_paper_codec_read_records.PaperCodecReadRecordTests.test_accumulated_budget_and_wrong_full_hash_still_refuse) ... FAIL
+test_each_original_physical_link_checked_once_with_exact_bytes_and_original_chain_limits (tests.storage.test_paper_codec_read_records.PaperCodecReadRecordTests.test_each_original_physical_link_checked_once_with_exact_bytes_and_original_chain_limits) ... FAIL
+test_foreign_missing_or_nonadjacent_record_never_supplies_a_base (tests.storage.test_paper_codec_read_records.PaperCodecReadRecordTests.test_foreign_missing_or_nonadjacent_record_never_supplies_a_base) ... FAIL
+test_standalone_reader_still_needs_every_original_ancestor_and_record_is_not_json_proof (tests.storage.test_paper_codec_read_records.PaperCodecReadRecordTests.test_standalone_reader_still_needs_every_original_ancestor_and_record_is_not_json_proof) ... FAIL
+
+======================================================================
+FAIL: test_accumulated_budget_and_wrong_full_hash_still_refuse (tests.storage.test_paper_codec_read_records.PaperCodecReadRecordTests.test_accumulated_budget_and_wrong_full_hash_still_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_codec_read_records.py", line 15, in setUp
+    self.assertTrue(callable(getattr(codec,name,None)),'Verified codec read record missing: '+name)
+AssertionError: False is not true : Verified codec read record missing: decode_state_record
+
+======================================================================
+FAIL: test_each_original_physical_link_checked_once_with_exact_bytes_and_original_chain_limits (tests.storage.test_paper_codec_read_records.PaperCodecReadRecordTests.test_each_original_physical_link_checked_once_with_exact_bytes_and_original_chain_limits)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_codec_read_records.py", line 15, in setUp
+    self.assertTrue(callable(getattr(codec,name,None)),'Verified codec read record missing: '+name)
+AssertionError: False is not true : Verified codec read record missing: decode_state_record
+
+======================================================================
+FAIL: test_foreign_missing_or_nonadjacent_record_never_supplies_a_base (tests.storage.test_paper_codec_read_records.PaperCodecReadRecordTests.test_foreign_missing_or_nonadjacent_record_never_supplies_a_base)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_codec_read_records.py", line 15, in setUp
+    self.assertTrue(callable(getattr(codec,name,None)),'Verified codec read record missing: '+name)
+AssertionError: False is not true : Verified codec read record missing: decode_state_record
+
+======================================================================
+FAIL: test_standalone_reader_still_needs_every_original_ancestor_and_record_is_not_json_proof (tests.storage.test_paper_codec_read_records.PaperCodecReadRecordTests.test_standalone_reader_still_needs_every_original_ancestor_and_record_is_not_json_proof)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_codec_read_records.py", line 15, in setUp
+    self.assertTrue(callable(getattr(codec,name,None)),'Verified codec read record missing: '+name)
+AssertionError: False is not true : Verified codec read record missing: decode_state_record
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+FAILED (failures=4)

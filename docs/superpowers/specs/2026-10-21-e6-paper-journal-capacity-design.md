@@ -268,3 +268,22 @@ No real-time observation credit is earned from controlled/accelerated testing;
 Self-review: authority and immutable-history constraints preserved; codec versus
 logical validation and management versus full-audit claims explicitly separated;
 no placeholder migration changes, account access, retention deletion or limit rise.
+
+## E. Measured read reuse refinement — 2026-10-24
+
+Actual cold audit scaling led to one-link continuation from an opaque immutable
+codec read record in the journal's existing exact-epoch cache. Record includes
+exact raw bytes/run/revision/full hash and original chain count/payload sum;
+actual next envelope is validated once, including keyframe reset and aggregate
+budget. No mutable AST or serialized input. Global4row/64MiB bound unchanged;
+no extra raw string copy (record and row share the same immutable string).
+Standalone public read signature and complete ancestor reconstruction unchanged.
+
+After all original operations have been fully checked, later effect/checkpoint/
+publication phases verify independent inventory metadata against those same
+immutable source facts, rather than repeating financial parsing. Count/order/
+orphan checks, physical rowid cutoffs and original pending snapshots remain.
+Unknown/external/schema changes discard progress before metadata reuse. This is
+physical read optimization, no financial completeness or authority relaxation.
+838actual source operations cold readonly audit7.109s/47.7MBpeak/0writes, exact
+snapshot hash unchanged.330storage PASS; whole30day/native qualification remains.

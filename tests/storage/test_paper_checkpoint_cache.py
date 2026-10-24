@@ -2,8 +2,10 @@
 import hashlib
 import unittest
 from unittest.mock import patch
+import inspect
 
 from storage import paper_process as process
+from storage import paper_state_codec as codec
 from storage.runtime_models import RuntimePersistenceError
 from tests.storage import test_paper_process_prefix as fixture
 from tests.storage.test_paper_process_journal import NOW
@@ -21,7 +23,7 @@ class PaperCheckpointCacheTests(unittest.TestCase):
             self.journal.mark_published('run-1',operation,applied.effect_hash,now=NOW)
 
     def test_repeated_management_reads_reuse_verified_state_in_same_actual_source_epoch(self):
-        with patch.object(process,'read_paper_checkpoint',wraps=process.read_paper_checkpoint) as decode:
+        with patch.object(process,'_read_paper_checkpoint_record',wraps=process._read_paper_checkpoint_record) as decode:
             first=self.journal.recover_current('run-1');before=decode.call_count
             second=self.journal.recover_current('run-1')
             self.assertEqual(second,first)
@@ -34,7 +36,7 @@ class PaperCheckpointCacheTests(unittest.TestCase):
         db=self.journal._db;db.execute('CREATE TABLE controlled_counter(value INTEGER)')
         self.journal.recover_current('run-1')
         db.execute('INSERT INTO controlled_counter VALUES(1)')
-        with patch.object(process,'read_paper_checkpoint',wraps=process.read_paper_checkpoint) as decode:
+        with patch.object(process,'_read_paper_checkpoint_record',wraps=process._read_paper_checkpoint_record) as decode:
             self.journal.recover_current('run-1');self.assertGreater(decode.call_count,0)
         self.assertFalse(self.journal.history_audit_ready('run-1'))
 
@@ -59,7 +61,7 @@ class PaperCheckpointCacheTests(unittest.TestCase):
             if self.journal.history_audit_ready('run-1'):break
         self.assertTrue(self.journal.history_audit_ready('run-1'))
         self.journal.recover_current('run-1')
-        with patch.object(process,'read_paper_checkpoint',wraps=process.read_paper_checkpoint) as decode:
+        with patch.object(process,'_read_paper_checkpoint_record',wraps=process._read_paper_checkpoint_record) as decode:
             self.journal.prepare('run-1','tick-4',{},expected_revision=3,now=NOW)
             self.assertEqual(decode.call_count,0,'Trusted INSERT decoded unchanged original chain again')
         self.assertTrue(self.journal.history_audit_ready('run-1'))
@@ -76,6 +78,24 @@ class PaperCheckpointCacheTests(unittest.TestCase):
         self.journal.mark_published('run-1','tick-3',operation.effect_hash,now=NOW)
         self.assertFalse(self.journal.history_audit_ready('run-1'))
         self.assertEqual(self.journal.recover_current('run-1').revision,3)
+
+    def test_fresh_same_epoch_reader_verifies_successor_without_replaying_verified_ancestors(self):
+        with process.open_paper_process_journal(self.helper.path) as reader:
+            previous=reader._checkpoint('run-1',2)
+            with patch.object(codec,'_unpack',wraps=codec._unpack) as unpack:
+                current=reader._checkpoint('run-1',3)
+                self.assertEqual(unpack.call_count,1,'Original ancestors decoded again after actual source verification')
+            self.assertEqual(current['state_json'],process.read_paper_checkpoint(reader._db,'run-1',3)['state_json'])
+            self.assertNotEqual(previous['state_hash'],current['state_hash'])
+            self.assertFalse(reader.history_audit_ready('run-1'))
+
+    def test_public_reader_stays_plain_complete_and_has_no_base_proof_input(self):
+        self.assertEqual(list(inspect.signature(process.read_paper_checkpoint).parameters),['connection','run_id','revision'])
+        with patch.object(codec,'_unpack',wraps=codec._unpack) as unpack:
+            current=process.read_paper_checkpoint(self.journal._db,'run-1',3)
+            self.assertGreater(unpack.call_count,1)
+        self.assertIs(type(current),dict)
+        self.assertEqual(set(current),{'run_id','revision','operation_id','state_json','state_hash','recorded_at'})
 
 
 if __name__=='__main__':unittest.main()

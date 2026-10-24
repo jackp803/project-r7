@@ -1,0 +1,46 @@
+test_inventory_phases_do_not_decode_old_operations_again_after_complete_actual_operation_validation (tests.storage.test_paper_history_audit.PaperHistoryAuditTests.test_inventory_phases_do_not_decode_old_operations_again_after_complete_actual_operation_validation) ... FAIL
+
+======================================================================
+FAIL: test_inventory_phases_do_not_decode_old_operations_again_after_complete_actual_operation_validation (tests.storage.test_paper_history_audit.PaperHistoryAuditTests.test_inventory_phases_do_not_decode_old_operations_again_after_complete_actual_operation_validation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_audit.py", line 133, in test_inventory_phases_do_not_decode_old_operations_again_after_complete_actual_operation_validation
+    with patch.object(self.journal,'operation',side_effect=current_only):self.finish(budget=1)
+                                                                         ^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_audit.py", line 22, in finish
+    progress=self.journal.history_audit_step('run-1',maximum_rows=budget)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_process.py", line 554, in history_audit_step
+    return self._history.step(run_id,maximum_rows=maximum_rows)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_history_audit.py", line 322, in step
+    for row in found:self._check(state,row);rows+=1
+                     ^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_history_audit.py", line 273, in _check
+    operation_id=_text(row['operation_id']);operation=self._original_operation(state,operation_id)
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_history_audit.py", line 253, in _original_operation
+    current=self.journal.operation(state.run_id,operation_id)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_audit.py", line 131, in current_only
+    self.assertEqual(operation_id,'tick-3','Already source-verified historical operation decoded in inventory again')
+AssertionError: 'tick-2' != 'tick-3'
+- tick-2
+?      ^
++ tick-3
+?      ^
+ : Already source-verified historical operation decoded in inventory again
+
+----------------------------------------------------------------------
+Ran 1 test in 0.332s
+
+FAILED (failures=1)

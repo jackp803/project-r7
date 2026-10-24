@@ -1,0 +1,75 @@
+{
+  "status": "COMPLETE_COLD_SOURCE_SNAPSHOT_AUDIT_DIAGNOSTIC_NOT_RUNTIME_AUTHORITY_OR30DAY_PASS",
+  "snapshot_sha256": "sha256:a0a4ffee6170f81f18386ada0ad7a2bd763e82b7027928af97f9a84a729ba4c7",
+  "wall_seconds": 7.108910500013735,
+  "cpu_seconds": 7.046875,
+  "phases": [
+    {
+      "phase": "OPERATIONS",
+      "verified_rows": 32,
+      "wall_seconds": 0.46145380003144965
+    },
+    {
+      "phase": "EFFECTS",
+      "verified_rows": 864,
+      "wall_seconds": 7.079080499999691
+    },
+    {
+      "phase": "CHECKPOINTS",
+      "verified_rows": 1696,
+      "wall_seconds": 7.085877600009553
+    },
+    {
+      "phase": "PUBLICATIONS",
+      "verified_rows": 2528,
+      "wall_seconds": 7.092853099980857
+    },
+    {
+      "phase": "PREFIXES",
+      "verified_rows": 3360,
+      "wall_seconds": 7.099547000019811
+    },
+    {
+      "phase": "COMPLETE",
+      "verified_rows": 4194,
+      "wall_seconds": 7.101983100001235
+    }
+  ],
+  "result": {
+    "scope": "DIAGNOSTIC_SNAPSHOT_NOT_RUNTIME_AUTHORITY",
+    "run_id": "paper_b68a8c7ae0caab91de222723a43b8f8d7d2caf418ca019cc171f1b622efcd700",
+    "verified_prefix_revision": 838,
+    "verified_prefix_hash": "sha256:7dddfe76c4355bdfdebc3d74e3d9879fd3bd3dc5bb3f90b64815d0bda68d5a0a",
+    "current_revision": 838,
+    "process_generation": 2,
+    "binding_hash": "sha256:5929b995840f000c368614cc347963df441bc3967912d767392e21997cfbc009",
+    "current_state_hash": "sha256:bab6493a2832edde0c74da9badbd655ad81e42bf7c07b5455f5804a82a2b123c",
+    "inventories": {
+      "OPERATIONS": 838,
+      "EFFECTS": 838,
+      "CHECKPOINTS": 839,
+      "PUBLICATIONS": 838,
+      "PREFIXES": 839,
+      "GENERATIONS": 2
+    },
+    "source_file_key": [
+      9565918608483697736,
+      11821949022068856
+    ],
+    "source_schema_version": 1,
+    "snapshot_write_count": 0,
+    "source_changed_during_snapshot": false
+  },
+  "input_operations": 838,
+  "reader_source_hashes": {
+    "src/storage/paper_process.py": "sha256:f98727b1667889bd11456cbb4d074d4bbf641f53817d8c986023cd3a37d0ddac",
+    "src/storage/paper_state_codec.py": "sha256:59ed2dc7d8762c078f92b9d28427c49d46701cfd569a4a3b743c039d93fe5609",
+    "src/storage/paper_history_audit.py": "sha256:336eec79c94c202a50425640d4a8da189fe119d48ef4fa4c947f42f1c690d8db"
+  },
+  "actual_provider_requests": 0,
+  "elapsed_credit": "NONE",
+  "native": "NOT_QUALIFIED",
+  "peak_working_set_bytes": 47718400,
+  "working_set_bytes": 37707776,
+  "peak_pagefile_bytes": 31408128
+}

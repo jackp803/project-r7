@@ -119,3 +119,16 @@ class PaperHistoryAuditTests(unittest.TestCase):
         self.journal._db.execute('INSERT INTO schema_migrations(migration_name) VALUES(?)',('9999_controlled_unknown.sql',))
         self.assertFalse(self.journal.history_audit_ready('run-1'))
         with self.assertRaises(RuntimeValidationError):self.finish(budget=1)
+
+    def test_inventory_phases_do_not_decode_old_operations_again_after_complete_actual_operation_validation(self):
+        for number in range(1,4):self.helper.apply(number)
+        for _ in range(100):
+            progress=self.journal.history_audit_step('run-1',maximum_rows=1)
+            if progress.phase!='OPERATIONS':break
+        self.assertEqual(progress.phase,'EFFECTS')
+        original=self.journal.operation
+        def current_only(run_id,operation_id):
+            self.assertEqual(operation_id,'tick-3','Already source-verified historical operation decoded in inventory again')
+            return original(run_id,operation_id)
+        with patch.object(self.journal,'operation',side_effect=current_only):self.finish(budget=1)
+        self.assertTrue(self.journal.history_audit_ready('run-1'))

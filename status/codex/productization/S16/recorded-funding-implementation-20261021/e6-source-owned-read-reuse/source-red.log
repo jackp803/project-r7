@@ -1,0 +1,15 @@
+test_fresh_same_epoch_reader_verifies_successor_without_replaying_verified_ancestors (tests.storage.test_paper_checkpoint_cache.PaperCheckpointCacheTests.test_fresh_same_epoch_reader_verifies_successor_without_replaying_verified_ancestors) ... FAIL
+test_public_reader_stays_plain_complete_and_has_no_base_proof_input (tests.storage.test_paper_checkpoint_cache.PaperCheckpointCacheTests.test_public_reader_stays_plain_complete_and_has_no_base_proof_input) ... ok
+
+======================================================================
+FAIL: test_fresh_same_epoch_reader_verifies_successor_without_replaying_verified_ancestors (tests.storage.test_paper_checkpoint_cache.PaperCheckpointCacheTests.test_fresh_same_epoch_reader_verifies_successor_without_replaying_verified_ancestors)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_checkpoint_cache.py", line 87, in test_fresh_same_epoch_reader_verifies_successor_without_replaying_verified_ancestors
+    self.assertEqual(unpack.call_count,1,'Original ancestors decoded again after actual source verification')
+AssertionError: 4 != 1 : Original ancestors decoded again after actual source verification
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.649s
+
+FAILED (failures=1)

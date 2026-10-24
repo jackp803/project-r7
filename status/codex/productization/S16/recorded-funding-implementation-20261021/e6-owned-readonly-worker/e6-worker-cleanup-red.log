@@ -1,0 +1,35 @@
+test_failed_reap_keeps_real_child_handle_and_blocks_successor_until_close_retries (tests.application.test_paper_history_worker.PaperHistoryWorkerTests.test_failed_reap_keeps_real_child_handle_and_blocks_successor_until_close_retries) ... FAIL
+test_thread_start_failure_unwinds_only_its_unstarted_session_and_leaves_owner_closable (tests.application.test_paper_history_worker.PaperHistoryWorkerTests.test_thread_start_failure_unwinds_only_its_unstarted_session_and_leaves_owner_closable) ... FAIL
+test_thread_start_failure_unwinds_only_its_unstarted_session_and_leaves_owner_closable (tests.application.test_paper_history_worker.PaperHistoryWorkerTests.test_thread_start_failure_unwinds_only_its_unstarted_session_and_leaves_owner_closable) ... ERROR
+
+======================================================================
+ERROR: test_thread_start_failure_unwinds_only_its_unstarted_session_and_leaves_owner_closable (tests.application.test_paper_history_worker.PaperHistoryWorkerTests.test_thread_start_failure_unwinds_only_its_unstarted_session_and_leaves_owner_closable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_history_worker.py", line 166, in close
+    session.cancel.set();session.thread.join(timeout=8)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\threading.py", line 1144, in join
+    raise RuntimeError("cannot join thread before it is started")
+RuntimeError: cannot join thread before it is started
+
+======================================================================
+FAIL: test_failed_reap_keeps_real_child_handle_and_blocks_successor_until_close_retries (tests.application.test_paper_history_worker.PaperHistoryWorkerTests.test_failed_reap_keeps_real_child_handle_and_blocks_successor_until_close_retries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_history_worker.py", line 88, in test_failed_reap_keeps_real_child_handle_and_blocks_successor_until_close_retries
+    self.assertIs(self.worker._session,session,'Failed reap discarded actual process handle')
+AssertionError: None is not _Session(token='0657d35d267a4a919ef3a4ff699d6141', run_id='run-1', state=_AuditState(issuer=<object object at 0x000001065D4F9260>, epoch=(254, 0, 2, 32), run_id='run-1', target=0, target_hash='sha256:461b5c90a6995a68500c3cabe95daef6bbddd41a6e7ccefa0c2e164e18253e20', current_revision=0, generation=0, run_created_at='2026-10-03T00:00:00.000000Z', prefix={'run_id': 'run-1', 'revision': 0, 'prefix_hash': 'sha256:461b5c90a6995a68500c3cabe95daef6bbddd41a6e7ccefa0c2e164e18253e20', 'pending': 0, 'applied': 0}, expected={'OPERATIONS': 0, 'EFFECTS': 0, 'CHECKPOINTS': 1, 'PUBLICATIONS': 0, 'PREFIXES': 1, 'GENERATIONS': 0}, bounds={'OPERATIONS': (None, None), 'EFFECTS': (None, None), 'CHECKPOINTS': ((0,), 1), 'PUBLICATIONS': (None, None), 'PREFIXES': ((0,), 1), 'GENERATIONS': (None, None)}, original_pending={}, live_revision=0, live_generation=0, live_prefix=0, phase=0, cursors={}, counts={'OPERATIONS': 0, 'EFFECTS': 0, 'CHECKPOINTS': 0, 'PUBLICATIONS': 0, 'PREFIXES': 0, 'GENERATIONS': 0}, generation_clock=None, status='HISTORY_AUDIT_FAILED', reason='OWNED_HISTORY_AUDIT_REFUSED'), source_file_key=(9565918608483697736, 632192797692310007), cancel=<threading.Event at 0x1065fccb3e0: set>, lock=<unlocked _thread.lock object at 0x000001065FDC7F00>, thread=<Thread(r7-paper-history-readonly, stopped daemon 128272)>, handle=OwnedProcess(process=<Popen: returncode: None args: ['C:\\Users\\jackp\\AppData\\Local\\Python\\p...>, limits=ResourceLimits(timeout_seconds=300, memory_enforcement='SOFT_LIMIT_ONLY'), started_monotonic=293391.875, termination_report=None), result=None, done=True, reaped=False) : Failed reap discarded actual process handle
+
+======================================================================
+FAIL: test_thread_start_failure_unwinds_only_its_unstarted_session_and_leaves_owner_closable (tests.application.test_paper_history_worker.PaperHistoryWorkerTests.test_thread_start_failure_unwinds_only_its_unstarted_session_and_leaves_owner_closable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_history_worker.py", line 101, in test_thread_start_failure_unwinds_only_its_unstarted_session_and_leaves_owner_closable
+    self.assertFalse(self.worker.summary()['active'])
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.673s
+
+FAILED (failures=2, errors=1)

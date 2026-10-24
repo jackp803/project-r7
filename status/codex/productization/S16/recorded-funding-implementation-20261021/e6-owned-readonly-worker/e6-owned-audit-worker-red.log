@@ -1,0 +1,41 @@
+test_actual_readonly_child_can_extend_only_its_launching_owner_after_known_appends (tests.application.test_paper_history_worker.PaperHistoryWorkerTests.test_actual_readonly_child_can_extend_only_its_launching_owner_after_known_appends) ... FAIL
+test_close_cancels_and_reaps_only_the_owned_process_without_importing_a_proof (tests.application.test_paper_history_worker.PaperHistoryWorkerTests.test_close_cancels_and_reaps_only_the_owned_process_without_importing_a_proof) ... FAIL
+test_corrupt_old_prefix_child_refuses_without_disabling_current_management (tests.application.test_paper_history_worker.PaperHistoryWorkerTests.test_corrupt_old_prefix_child_refuses_without_disabling_current_management) ... FAIL
+test_unknown_same_connection_write_revokes_actual_child_result (tests.application.test_paper_history_worker.PaperHistoryWorkerTests.test_unknown_same_connection_write_revokes_actual_child_result) ... FAIL
+
+======================================================================
+FAIL: test_actual_readonly_child_can_extend_only_its_launching_owner_after_known_appends (tests.application.test_paper_history_worker.PaperHistoryWorkerTests.test_actual_readonly_child_can_extend_only_its_launching_owner_after_known_appends)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_history_worker.py", line 11, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.history_audit'),
+AssertionError: unexpectedly None : No independent owned Paper history auditor
+
+======================================================================
+FAIL: test_close_cancels_and_reaps_only_the_owned_process_without_importing_a_proof (tests.application.test_paper_history_worker.PaperHistoryWorkerTests.test_close_cancels_and_reaps_only_the_owned_process_without_importing_a_proof)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_history_worker.py", line 11, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.history_audit'),
+AssertionError: unexpectedly None : No independent owned Paper history auditor
+
+======================================================================
+FAIL: test_corrupt_old_prefix_child_refuses_without_disabling_current_management (tests.application.test_paper_history_worker.PaperHistoryWorkerTests.test_corrupt_old_prefix_child_refuses_without_disabling_current_management)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_history_worker.py", line 11, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.history_audit'),
+AssertionError: unexpectedly None : No independent owned Paper history auditor
+
+======================================================================
+FAIL: test_unknown_same_connection_write_revokes_actual_child_result (tests.application.test_paper_history_worker.PaperHistoryWorkerTests.test_unknown_same_connection_write_revokes_actual_child_result)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_history_worker.py", line 11, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.history_audit'),
+AssertionError: unexpectedly None : No independent owned Paper history auditor
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.002s
+
+FAILED (failures=4)

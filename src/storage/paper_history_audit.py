@@ -8,6 +8,7 @@ No serialized progress object can be accepted as an audit proof.
 from contextlib import closing,contextmanager
 from dataclasses import dataclass,field
 from functools import lru_cache
+from pathlib import Path
 import sqlite3
 
 from ._sqlite_registry import _apply_migrations,check_migration_compatibility
@@ -108,7 +109,22 @@ class _AuditState:
 
 class PaperHistoryAudit:
     def __init__(self,journal):
-        self.journal=journal;self.db=journal._db;self._issuer=object();self._states={};self._write_active=None
+        self.journal=journal;self.db=journal._db;self._issuer=object();self._states={};self._write_active=None;self._pinned=None
+
+    @contextmanager
+    def _pin_readonly_snapshot(self):
+        """Independent readonly child use only; never the live writer connection.
+
+        Keep one source snapshot while bounded audit batches run. Later source
+        appends cannot restart this audit. The containing runtime must still
+        validate its actual owned child and all intervening writes independently.
+        """
+        if self.db.in_transaction or self._pinned is not None or self.db.execute('PRAGMA query_only').fetchone()[0]!=1:
+            _invalid()
+        self.db.execute('BEGIN');self._pinned=object()
+        try:yield
+        finally:
+            self.db.rollback();self._pinned=None;self._states.clear()
 
     def _epoch(self):
         return (self.db.execute('PRAGMA schema_version').fetchone()[0],
@@ -288,12 +304,13 @@ class PaperHistoryAudit:
     def step(self,run_id,*,maximum_rows):
         _text(run_id)
         if type(maximum_rows) is not int or not 1<=maximum_rows<=128:_invalid()
-        if self.db.in_transaction:raise RuntimeValidationError('PAPER_HISTORY_AUDIT_IDLE_OWNER_REQUIRED','History audit needs an idle read owner')
+        if self.db.in_transaction and self._pinned is None:raise RuntimeValidationError('PAPER_HISTORY_AUDIT_IDLE_OWNER_REQUIRED','History audit needs an idle read owner')
+        if self._pinned is not None and not self.db.in_transaction:_invalid()
         state=self._current(run_id);epoch=self._epoch();rows=0
         if state is not None:
             if state.status=='HISTORY_VERIFIED_IN_CURRENT_INSTANCE':return self.progress(run_id)
             if state.status=='HISTORY_AUDIT_FAILED':_invalid()
-        self.db.execute('BEGIN')
+        if self._pinned is None:self.db.execute('BEGIN')
         try:
             if state is None:
                 state=self._begin(run_id,epoch);self._states[run_id]=state
@@ -305,7 +322,8 @@ class PaperHistoryAudit:
             if state is not None:
                 state.status='HISTORY_AUDIT_FAILED';state.reason='CORE_PROCESS_HISTORY_INVALID'
             raise RuntimeValidationError('PAPER_HISTORY_AUDIT_INVALID','Core process history audit refused') from None
-        finally:self.db.rollback()
+        finally:
+            if self._pinned is None:self.db.rollback()
         if self._epoch()!=epoch:
             self._states.pop(run_id,None);return self.progress(run_id,rows=rows)
         if state.phase==len(_PHASES):
@@ -319,3 +337,43 @@ class PaperHistoryAudit:
             if current.revision!=state.live_revision or current.process_generation!=state.live_generation:_invalid()
             state.status='HISTORY_VERIFIED_IN_CURRENT_INSTANCE';state.reason=None
         return self.progress(run_id,rows=rows)
+
+
+def audit_paper_history_snapshot(path,run_id,*,maximum_rows=32,on_progress=None):
+    """Actual fixed readonly source diagnostic. This result is NOT a proof input.
+
+    No migration, broker producer, network, new active database or durable audit
+    flag. The future owned-process receiver must bind the real child and source
+    epoch before any private runtime eligibility can be extended from its work.
+    """
+    from .paper_process import PaperProcessJournal,_digest,_state
+    from application.platform.resources import require_local_database_volume
+    target=Path(path)
+    if not target.is_absolute() or '..' in target.parts or not target.is_file():_invalid()
+    if on_progress is not None and not callable(on_progress):_invalid()
+    require_local_database_volume(target)
+    source=target.stat();file_key=(source.st_dev,source.st_ino)
+    with closing(sqlite3.connect(target.as_uri()+'?mode=ro',uri=True,isolation_level=None)) as db:
+        db.row_factory=sqlite3.Row
+        db.execute('PRAGMA query_only=ON');db.execute('PRAGMA foreign_keys=ON');db.execute('PRAGMA busy_timeout=5000')
+        journal=PaperProcessJournal(db);history=journal._history
+        with history._pin_readonly_snapshot():
+            while True:
+                progress=history.step(run_id,maximum_rows=maximum_rows)
+                if on_progress is not None:on_progress(progress)
+                if history.ready(run_id):break
+            original=history._current(run_id);current=journal.recover_current(run_id)
+            epoch=history._epoch()
+            result=dict(scope='DIAGNOSTIC_SNAPSHOT_NOT_RUNTIME_AUTHORITY',run_id=run_id,
+                verified_prefix_revision=original.target,verified_prefix_hash=original.target_hash,
+                current_revision=current.revision,process_generation=current.process_generation,
+                binding_hash=_digest(current.binding_json),current_state_hash=_digest(current.state_json),
+                inventories=dict(original.counts),source_file_key=file_key,source_schema_version=epoch[0],
+                snapshot_write_count=db.total_changes)
+        # E4 domain validation occurs after releasing the snapshot, never inside
+        # its SQLite transaction. It validates the actual captured state bytes.
+        _state(current.state)
+        result['source_changed_during_snapshot']=history._epoch()!=epoch
+    after=target.stat()
+    if (after.st_dev,after.st_ino)!=file_key:_invalid()
+    return result

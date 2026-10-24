@@ -182,6 +182,39 @@ inventory validation is still required before any live extension is eligible.
 This bounds returned rows, not yet CPU/latency: resource scheduling and capacity
 measurement remain mandatory before normal entry/healthy gates activate.
 
+### D independent producer refinement
+
+Use the same E6 batch verifier in a separately owned read-only process. It pins
+one actual SQLite WAL read snapshot of the original active canonical file, not a
+second active database or copied evidence. Source appends can continue while its
+fixed snapshot completes. No migration, write or persistent permission is allowed
+in that reader. Release the snapshot on completion, failure or cancellation; E4
+broker validation of captured state runs after releasing the read transaction.
+
+The diagnostic snapshot report alone is never an accepted proof input. E6 owns
+the actual child through the existing platform Job/process-group, private bounded
+stdout and a fresh launch nonce. The registered internal E6 receiver ties that
+actual process to its exact journal-instance state/issuer, launch source file
+identity, implementation hash, original prefix and process generation. The child
+may observe a later valid prefix; require exact source hashes and a revision/
+generation within the parent's independently tracked own-write extension. Any
+unknown/external/schema mutation invalidates the parent state even if the child
+completed an older valid snapshot. There is no file/result/PASS import endpoint.
+
+Reuse the original bounded process lifecycle (300s deadline, below-normal
+priority,16KiB maximum report), with all blocking IO/reaping in its owning helper
+thread. Poll reads only actual completed private session data and bounded source
+facts; it does not wait or hash source/history. A failed reap retains its handle,
+denies a successor and requires confirmed bounded cleanup before lender close.
+Pre-dispatch thread-start failure unwinds only its own state without leaking a
+process or making the source connection unclosable.
+
+This component has not yet established whole-product CPU/RSS/protection-latency
+qualification. Existing memory enforcement is SOFT_LIMIT_ONLY; do not describe a
+deadline/process boundary as a hard memory ceiling. Actual runtime scheduling,
+current-reader switch, entry/healthy gates, truthful UI and whole-product capacity
+remain required before ordinary encoded-profile rollout or real observation.
+
 ## D. Acceptance and rollout
 
 Tests first at each boundary: pure codec exact equivalence/hostile shapes and

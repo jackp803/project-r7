@@ -205,7 +205,9 @@ class PaperProcessJournal:
         self._prefixes=PublishedPrefixes(self)
         self._history=PaperHistoryAudit(self)
         self._borrowed_canonical=None
+        self._background_history=None
     def close(self):
+        if self._background_history is not None:self._background_history.close()
         if self._borrowed_canonical is not None:
             self._borrowed_canonical._lender_closed();self._borrowed_canonical=None
         self._db.close()

@@ -98,6 +98,10 @@ def main(argv=None):
     funding_child.add_argument('--config',type=Path,required=True)
     for name in ('runtime-token','attempt-id','request-hash','expected-config-hash','selection-hash'):
         funding_child.add_argument('--'+name,required=True)
+    history_child=commands.add_parser('_paper-history-audit',help=argparse.SUPPRESS)
+    history_child.add_argument('--database',type=Path,required=True)
+    for name in ('run-id','session-id','expected-implementation-hash'):
+        history_child.add_argument('--'+name,required=True)
     boundary_check=commands.add_parser('_paper-native-boundary-check',help=argparse.SUPPRESS)
     boundary_check.add_argument('--config',type=Path,required=True)
     stale_check=commands.add_parser('_paper-native-stale-check',help=argparse.SUPPRESS)
@@ -392,6 +396,10 @@ def main(argv=None):
         from application.paper.funding_feed import run_funding_acquire
         print(json.dumps(run_funding_acquire(args.config,args.runtime_token,args.attempt_id,args.request_hash,
             args.expected_config_hash,args.selection_hash)))
+        return 0
+    if args.command=='_paper-history-audit':
+        from storage.paper_history_worker import run_history_audit_child
+        print(json.dumps(run_history_audit_child(args.database,args.run_id,args.session_id,args.expected_implementation_hash)))
         return 0
     if args.command=='_paper-native-boundary-check':
         from application.paper.native_boundary_checks import run_native_boundary_checks

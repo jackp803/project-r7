@@ -1,3 +1,41 @@
+# E6 D owned readonly worker component passes; integrate normal gates — 2026-10-24
+
+Same Master/branch. Main fetched unchanged7d1f447. Actual readonly pinned audit of
+original canonical WAL source runs in E6-owned Job/process group, private16KiB
+stdout/nonce,300s deadline and Windows below-normal priority. No migrations,
+snapshot writes, second active DB or serialized/public PASS input. Parent exact
+issuer/epoch/source file/implementation/prefix/generation ties completed real
+child to independently verified own append extensions; unknown/external/schema
+writes revoke. Corrupt old history refuses without disabling current facts.
+Cancellation releases snapshot; failed reap retains handle/denies successor and
+retries cleanup before lender close. Thread startup refusal leaves owner closable.
+
+316storage/23worker-snapshot-original-audit/17process-worker-snapshot PASS; overlap
+not summed. Initial genuine failures retained, including cleanup/startup errors.
+Read-only review1P1/1P2 repaired; final narrow0Critical0Important. This proves the
+component, not normal Paper, capacity, elapsed samples or native qualification.
+
+NEXT D: normal runtime management_snapshot selector (new prefix profiles use
+recover_current; legacy retains full recover), real private history gate for new
+entry/first fill/healthy-forward/assessment, protection-first background scheduling,
+truthful last-known control/UI diagnostics. Keep legacy default until entire path
+and whole-product/new exact executable qualification. Tests should use actual
+LOCAL owners with explicit encoded creation and wait for actual owned audit when
+testing positive funding flows; successors and unknown mutation must inhibit new
+entry/healthy credit while existing protection/exit/funding finalization continue.
+No full old-history scans/hashes/network in protection callbacks. Poll is nonblocking;
+startup/finish bounded current source cost and WAL retention still need measuring.
+Memory enforcement SOFT_LIMIT_ONLY; no whole-product resource PASS claimed.
+
+Then E actual30day whole-product disk/RSS/CPU/latency/backup and fresh Windows
+build/fixed PQR. Remaining original emergency ticker reserve route, original4h/
+TTL/day limits, research independence/admission, selected-policy commissioning and
+old-PC/Ubuntu/cloud/actual48h30d gates remain. Public20requests/19responses unchanged,
+private0/credentialsNONE/mutation0/capitalNONE; ordinary observation NOT_STARTED.
+Evidence: status/codex/productization/S16/recorded-funding-implementation-20261021/e6-owned-readonly-worker/disposition.json
+
+---
+
 # Approved E6 D owned writes/canonical seam component passes; finish resources/gates — 2026-10-22
 
 Fixed E6 own writer scopes observe compiled SQLite mutation footprints (including

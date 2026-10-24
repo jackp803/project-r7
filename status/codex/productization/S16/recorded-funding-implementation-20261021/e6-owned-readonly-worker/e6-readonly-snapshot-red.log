@@ -1,0 +1,41 @@
+test_actual_fixed_snapshot_finishes_while_real_owner_appends_without_history_restarts (tests.storage.test_paper_history_snapshot.PaperHistorySnapshotTests.test_actual_fixed_snapshot_finishes_while_real_owner_appends_without_history_restarts) ... FAIL
+test_ancient_actual_prefix_corruption_refuses_snapshot_despite_valid_current_facts (tests.storage.test_paper_history_snapshot.PaperHistorySnapshotTests.test_ancient_actual_prefix_corruption_refuses_snapshot_despite_valid_current_facts) ... FAIL
+test_cancelled_observer_releases_read_snapshot_without_mutation_or_permission (tests.storage.test_paper_history_snapshot.PaperHistorySnapshotTests.test_cancelled_observer_releases_read_snapshot_without_mutation_or_permission) ... FAIL
+test_separate_snapshot_never_migrates_writes_or_installs_owner_proof (tests.storage.test_paper_history_snapshot.PaperHistorySnapshotTests.test_separate_snapshot_never_migrates_writes_or_installs_owner_proof) ... FAIL
+
+======================================================================
+FAIL: test_actual_fixed_snapshot_finishes_while_real_owner_appends_without_history_restarts (tests.storage.test_paper_history_snapshot.PaperHistorySnapshotTests.test_actual_fixed_snapshot_finishes_while_real_owner_appends_without_history_restarts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_snapshot.py", line 14, in setUp
+    self.assertTrue(callable(getattr(self.module,'audit_paper_history_snapshot',None)),
+AssertionError: False is not true : Independent readonly pinned source audit missing
+
+======================================================================
+FAIL: test_ancient_actual_prefix_corruption_refuses_snapshot_despite_valid_current_facts (tests.storage.test_paper_history_snapshot.PaperHistorySnapshotTests.test_ancient_actual_prefix_corruption_refuses_snapshot_despite_valid_current_facts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_snapshot.py", line 14, in setUp
+    self.assertTrue(callable(getattr(self.module,'audit_paper_history_snapshot',None)),
+AssertionError: False is not true : Independent readonly pinned source audit missing
+
+======================================================================
+FAIL: test_cancelled_observer_releases_read_snapshot_without_mutation_or_permission (tests.storage.test_paper_history_snapshot.PaperHistorySnapshotTests.test_cancelled_observer_releases_read_snapshot_without_mutation_or_permission)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_snapshot.py", line 14, in setUp
+    self.assertTrue(callable(getattr(self.module,'audit_paper_history_snapshot',None)),
+AssertionError: False is not true : Independent readonly pinned source audit missing
+
+======================================================================
+FAIL: test_separate_snapshot_never_migrates_writes_or_installs_owner_proof (tests.storage.test_paper_history_snapshot.PaperHistorySnapshotTests.test_separate_snapshot_never_migrates_writes_or_installs_owner_proof)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_snapshot.py", line 14, in setUp
+    self.assertTrue(callable(getattr(self.module,'audit_paper_history_snapshot',None)),
+AssertionError: False is not true : Independent readonly pinned source audit missing
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.185s
+
+FAILED (failures=4)

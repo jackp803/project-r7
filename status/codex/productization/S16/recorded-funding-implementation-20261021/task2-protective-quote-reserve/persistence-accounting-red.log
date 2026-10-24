@@ -1,0 +1,28 @@
+test_post_dispatch_capture_persistence_failure_keeps_unknown_accounting_signal (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_post_dispatch_capture_persistence_failure_keeps_unknown_accounting_signal) ... ERROR
+
+======================================================================
+ERROR: test_post_dispatch_capture_persistence_failure_keeps_unknown_accounting_signal (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_post_dispatch_capture_persistence_failure_keeps_unknown_accounting_signal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_exposure_only_market.py", line 160, in test_post_dispatch_capture_persistence_failure_keeps_unknown_accounting_signal
+    feed_module.check_batch_once(config_path,h.subscription.runtime_token,(h.subscription,),threading.Event())
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\paper\public_feed.py", line 115, in check_batch_once
+    return _check_batch_once(config_path,token,subscriptions,cancel)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\paper\public_feed.py", line 180, in _check_batch_once
+    pointer=archive.commit_directory(attempt_id,root,requests=result['provider_requests'] if complete else 0,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+OSError: controlled retained disk failure
+
+----------------------------------------------------------------------
+Ran 1 test in 0.099s
+
+FAILED (errors=1)

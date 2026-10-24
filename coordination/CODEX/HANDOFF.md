@@ -1,3 +1,35 @@
+# Source protective quote reserve + pending backup pass; new layout review pending — 2026-10-24
+
+Same Master/branch/main7d1f447. Existing Task2 finite reserve now wired through
+normal owned acquisition for actual E4 held quantity only. One fixed public
+ticker GET/8MiB/8files/1request; exact captured scope/fences and raw receipts.
+No candle/funding/private call. Normal-capacity failures only; exhausted or
+corrupt committed roots still refuse. Durable management-only scope blocks new
+entry/first fill/later deadline fill, healthy and opportunity credit. Actual
+source protection/exit/pending/successor/later funding finalization continue.
+Full normal source can clear scope; no other original gate bypass.
+
+Feed summary explicitly instance counts, separate last-known cumulative archive
+requests/upper budget; old unknown remains unknown after restart. RED found
+post-dispatch capture IO error was classified generic/preIO; now incomplete
+accounting, bytes/pending/committed archive retained.64public final PASS;91runtime/
+API/worker/ordinary/recorded/encoded/gates/backup PASS before final public_feed
+IO error wrap. Other five source hashes same. Exact variants/evidence retained;
+no native/whole-PQR credit and no new actual requests(public20/19unchanged).
+
+Compact fact layout review remains PROPOSED_NOT_AUTHORIZED; human async question
+submitted citing original major-architecture review requirement. Do not reopen
+the original approved checkpoint scope/four PM mappings. Measured4320operation
+SQLite growth projects33.74GB+3.62GBarchive>16GiB. No long ordinary observation,
+limit increase/history deletion/permission import. Current only qualified owning
+executable remains bffc558; do not transfer receipt to these source changes.
+All original selected policy/research/holdout/source/native/current candidate/
+capacity gates and target PC/Ubuntu/cloud/real48h30d samples remain required.
+Independent pending product backup/verify/restore23PASS recorded9855396.
+Evidence: status/codex/productization/S16/recorded-funding-implementation-20261021/task2-protective-quote-reserve/disposition.json
+
+---
+
 # Independent populated pending backup passes — 2026-10-24
 
 Actual LOCAL owner-produced encoded flat/funding-pending facts survive normal

@@ -17,6 +17,7 @@ from .public_market import MarketSubscription
 
 TICKER='/api/v5/market/ticker'
 SCHEMA='r7-public-market-batch-v0.2'
+EXPOSURE_SCHEMA='r7-public-market-batch-exposure-only-v0.3'
 MAX_OUTPUT=12*1024*1024
 
 
@@ -39,7 +40,8 @@ def validate_subscriptions(values):
         if (parsed.version!=4 or str(parsed)!=value['runtime_token'] or token not in (None,value['runtime_token'])
                 or value['namespace']!='LOCAL_RESEARCH' or value['symbol']!='BTC_USDT_PERP'
                 or type(value['e6_generation']) is not int or not 1<=value['e6_generation']<=2147483647
-                or type(value['strategy_content_hash']) is not str or not re.fullmatch(r'sha256:[0-9a-f]{64}',value['strategy_content_hash'])):
+                or type(value['strategy_content_hash']) is not str or not re.fullmatch(r'sha256:[0-9a-f]{64}',value['strategy_content_hash'])
+                or type(value['exposure_open']) is not bool):
             raise ValueError('Exact ordinary public owning subject required')
         token=value['runtime_token'];frames=[];frame_names=set()
         if not isinstance(value['frames'],(tuple,list)) or not 1<=len(value['frames'])<=4:raise ValueError('Bounded strategy frames required')
@@ -96,19 +98,24 @@ def _history(transport,frame,start,end,clock):
     return [selected[at].to_interchange_dict() for at in expected]
 
 
-def acquire_batch(root,subscriptions,*,_opener=None,_clock=lambda:datetime.now(timezone.utc),_minimum_interval=.25):
+def acquire_batch(root,subscriptions,*,_opener=None,_clock=lambda:datetime.now(timezone.utc),_minimum_interval=.25,_exposure_only=False):
     """Private pure acquisition component; CLI admission precedes this function.
 
     Every successful/rejected attempt has its actual request counters and raw
     receipts. An interrupted process has incomplete accounting, never fake zero.
     """
     subscriptions=validate_subscriptions([asdict(value) for value in subscriptions])
+    if type(_exposure_only) is not bool or _exposure_only and not all(row.exposure_open for row in subscriptions):
+        raise ValueError('Actual owning exposure required for protective quotes')
     root=Path(root);create_private_directory(root)
     transport=PaperPublicTransport(root,opener=_opener,minimum_interval=_minimum_interval)
     result=dict(schema_version=SCHEMA,status='PUBLIC_MARKET_REJECTED',subscriptions=[asdict(row) for row in subscriptions])
+    if _exposure_only:
+        result.update(schema_version=EXPOSURE_SCHEMA,management_only=True);transport.request_budget=1
     try:
         now=_clock();ranges={};candles={}
         for row in subscriptions:
+            if _exposure_only:continue
             for frame,needed,cap,last in row.frames:
                 end=_floor(now,frame);start=end-needed*timeframe_duration(frame) if last is None else max(utc(last),end-cap*timeframe_duration(frame))
                 if start>end:fail('FUTURE_DURABLE_CANDLE_BOUNDARY')
@@ -118,7 +125,7 @@ def acquire_batch(root,subscriptions,*,_opener=None,_clock=lambda:datetime.now(t
         snapshot=normalize_okx_ticker(payload,symbol='BTC_USDT_PERP',received_at=_clock())
         # A boundary crossed during warmup is retried; never present incomplete
         # history as the just-closed bar associated with a newer quote.
-        if any(_floor(now,frame)!=_floor(snapshot.observed_at,frame) for row in subscriptions for frame,*_ in row.frames):fail('CANDLE_BOUNDARY_CHANGED')
+        if not _exposure_only and any(_floor(now,frame)!=_floor(snapshot.observed_at,frame) for row in subscriptions for frame,*_ in row.frames):fail('CANDLE_BOUNDARY_CHANGED')
         result.update(status='PUBLIC_MARKET_ACQUIRED',snapshot=snapshot.to_interchange_dict(),candles=candles)
     except AcquisitionError as error:result['reason_code']=error.code
     except MarketDataError:result['reason_code']='PUBLIC_MARKET_DATA_REJECTED'
@@ -135,14 +142,19 @@ def event_for(current,result,*,now):
     from .service import PaperMarketEvent
     required={'schema_version','status','subscriptions','snapshot','candles','provider_requests','provider_responses',
               'request_accounting','credentials','provider_mutation'}
-    if (not isinstance(result,dict) or set(result)!=required or result['schema_version']!=SCHEMA
+    management_only=isinstance(result,dict) and result.get('schema_version')==EXPOSURE_SCHEMA
+    if management_only:required.add('management_only')
+    if (not isinstance(result,dict) or set(result)!=required or result['schema_version'] not in (SCHEMA,EXPOSURE_SCHEMA)
             or result['status']!='PUBLIC_MARKET_ACQUIRED' or result['request_accounting']!='COMPLETE'
             or result['credentials']!='NONE' or type(result['provider_mutation']) is not int or result['provider_mutation']!=0
             or type(result['provider_requests']) is not int or type(result['provider_responses']) is not int
-            or not 1<=result['provider_responses']<=result['provider_requests']<=165):raise ValueError('Exact actual public batch required')
+            or not 1<=result['provider_responses']<=result['provider_requests']<=(1 if management_only else 165)
+            or management_only and (result['management_only'] is not True or result['candles']!={})):raise ValueError('Exact actual public batch required')
     originals=validate_subscriptions(result['subscriptions'])
+    if management_only and not all(row.exposure_open for row in originals):raise ValueError('Exposure-only owning batch required')
     original=next((row for row in originals if row.run_id==current.run_id),None)
     if original is None:return None
+    if management_only and current.exposure_open is not True:return None
     if any(getattr(original,key)!=getattr(current,key) for key in
             ('namespace','runtime_token','e6_generation','strategy_content_hash','symbol')):return None
     if tuple(row[:3] for row in current.frames)!=tuple(row[:3] for row in original.frames):return None
@@ -184,4 +196,4 @@ def event_for(current,result,*,now):
                     or previous is not None and candle.open_time!=previous):raise ValueError('Available contiguous finalized candles required')
             previous=candle.close_time
             if last is None or candle.close_time>utc(last):rows.append(candle)
-    return PaperMarketEvent(snapshot,tuple(rows),source_kind='PUBLIC_MARKET')
+    return PaperMarketEvent(snapshot,tuple(rows),source_kind='PUBLIC_MARKET',management_only=management_only)

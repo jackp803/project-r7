@@ -17,6 +17,9 @@ from .public_acquisition import acquire_batch,validate_subscriptions,MAX_OUTPUT
 
 ROOT='public-market-observations'
 DEADLINE=125
+EXPOSURE_RESERVATION_BYTES=8*1024**2
+_PROTECTIVE_REFUSALS=frozenset('PUBLIC_ARCHIVE_'+name for name in
+    ('ACCOUNTING_INCOMPLETE','TOTAL_CAPACITY','FILE_CAPACITY','DISK_CAPACITY','ACTIVE_CAPACITY'))
 _unreaped=[]
 _archives=OrderedDict()
 _archives_lock=threading.Lock()
@@ -70,14 +73,14 @@ def _guard(config_path,token,expected_config_hash=None,selection_hash=None):
     return config,profile
 
 
-def run_market_acquire(config_path,token,attempt_id,request_hash,expected_config_hash,selection_hash):
+def run_market_acquire(config_path,token,attempt_id,request_hash,expected_config_hash,selection_hash,*,exposure_only=False):
     from .capture_activity import capture_lease
     config,_=_guard(config_path,token,expected_config_hash,selection_hash)
     with capture_lease(config,'market'):
-        return _run_market_acquire(config_path,token,attempt_id,request_hash,expected_config_hash,selection_hash)
+        return _run_market_acquire(config_path,token,attempt_id,request_hash,expected_config_hash,selection_hash,exposure_only=exposure_only)
 
 
-def _run_market_acquire(config_path,token,attempt_id,request_hash,expected_config_hash,selection_hash):
+def _run_market_acquire(config_path,token,attempt_id,request_hash,expected_config_hash,selection_hash,*,exposure_only=False):
     """Fixed private CLI target, no caller endpoint, price, code or financial verdict."""
     _uuid(attempt_id)
     config,profile=_guard(config_path,token,expected_config_hash,selection_hash)
@@ -87,7 +90,15 @@ def _run_market_acquire(config_path,token,attempt_id,request_hash,expected_confi
     if digest(raw)!=request_hash:raise ValueError('Exact captured public subscription required')
     subscriptions=validate_subscriptions(decode(raw))
     if any(row.runtime_token!=token for row in subscriptions):raise ValueError('Exact owning public subscriptions required')
-    result=acquire_batch(root/'capture',subscriptions)
+    if type(exposure_only) is not bool:raise ValueError('Exact protective quote scope required')
+    if exposure_only:
+        admission=decode(read_local(root,'admission.json',4096))
+        if (not all(row.exposure_open for row in subscriptions) or not isinstance(admission,dict)
+                or set(admission)!={'attempt_id','request_hash','scope','normal_refusal'}
+                or admission['attempt_id']!=attempt_id or admission['request_hash']!=request_hash
+                or admission['scope']!='EXPOSURE_MANAGEMENT_ONLY' or admission['normal_refusal'] not in _PROTECTIVE_REFUSALS):
+            raise ValueError('Exact retained protective admission required')
+    result=acquire_batch(root/'capture',subscriptions,_exposure_only=exposure_only)
     _guard(config_path,token,expected_config_hash,selection_hash)
     return dict(request_hash=request_hash,attempt_id=attempt_id,runtime_token=token,result=result)
 
@@ -111,16 +122,25 @@ def _check_batch_once(config_path,token,subscriptions,cancel):
     subscriptions=validate_subscriptions([asdict(value) for value in subscriptions])
     if any(row.runtime_token!=token for row in subscriptions):raise ValueError('Actual owning subscriptions required')
     archive=_archive_for(config);attempt_id=str(uuid.uuid4())
-    archive.reserve(attempt_id,kind='market',maximum_requests=165,maximum_bytes=400*1024**2,maximum_files=670)
+    exposure_only=False;normal_refusal=None
+    try:archive.reserve(attempt_id,kind='market',maximum_requests=165,maximum_bytes=400*1024**2,maximum_files=670)
+    except ValueError as caught:
+        exposed=tuple(row for row in subscriptions if row.exposure_open)
+        if str(caught) not in _PROTECTIVE_REFUSALS or not exposed:raise
+        exposure_only=True;normal_refusal=str(caught);subscriptions=exposed
+        archive.reserve(attempt_id,kind='market',maximum_requests=1,maximum_bytes=EXPOSURE_RESERVATION_BYTES,maximum_files=8,emergency=True)
     base=config.local_data_root/ROOT;_private_directory(base)
     owner=base/token;_private_directory(owner)
     root=owner/attempt_id;create_private_directory(root)
     raw=canonical([asdict(row) for row in subscriptions]).encode('utf-8');request_hash=digest(raw)
     if len(raw)>262144:raise ValueError('Bounded public subscription request required')
     write_immutable(root,'request.json',raw)
+    if exposure_only:write_immutable(root,'admission.json',canonical(dict(attempt_id=attempt_id,request_hash=request_hash,
+        scope='EXPOSURE_MANAGEMENT_ONLY',normal_refusal=normal_refusal)).encode('utf-8'))
     prefix=[sys.executable] if getattr(sys,'frozen',False) else [sys.executable,'-m','application']
     argv=prefix+['_paper-market-acquire','--config',str(config_path),'--runtime-token',token,
         '--attempt-id',attempt_id,'--request-hash',request_hash,'--expected-config-hash',expected,'--selection-hash',selection]
+    if exposure_only:argv.append('--exposure-only')
     owned=None;started=time.monotonic();result=None;error=None
     try:
         if cancel.is_set():raise ValueError('Public acquisition canceled before dispatch')
@@ -152,14 +172,19 @@ def _check_batch_once(config_path,token,subscriptions,cancel):
             if not reaped:
                 _unreaped.append(owned)
                 raise MarketAttemptIncomplete(False)
-    acquisition=decode(read_local(root,'capture/acquisition.json',MAX_OUTPUT)) if (root/'capture/acquisition.json').exists() else None
-    complete=(error is None and isinstance(result,dict) and result.get('request_accounting')=='COMPLETE'
-        and type(result.get('provider_requests')) is int and type(result.get('provider_responses')) is int
-        and 0<=result['provider_responses']<=result['provider_requests']<=165
-        and acquisition==result)
-    pointer=archive.commit_directory(attempt_id,root,requests=result['provider_requests'] if complete else 0,
-        responses=result['provider_responses'] if complete else 0,complete=complete)
-    archive.release_directory(pointer,root,staging_root=base)
+    try:
+        acquisition=decode(read_local(root,'capture/acquisition.json',MAX_OUTPUT)) if (root/'capture/acquisition.json').exists() else None
+        complete=(error is None and isinstance(result,dict) and result.get('request_accounting')=='COMPLETE'
+            and type(result.get('provider_requests')) is int and type(result.get('provider_responses')) is int
+            and 0<=result['provider_responses']<=result['provider_requests']<=165
+            and acquisition==result and (result.get('management_only') is True)==exposure_only)
+        pointer=archive.commit_directory(attempt_id,root,requests=result['provider_requests'] if complete else 0,
+            responses=result['provider_responses'] if complete else 0,complete=complete)
+        archive.release_directory(pointer,root,staging_root=base)
+    except (ValueError,RuntimeError,OSError,TypeError,KeyError):
+        # Dispatch has crossed the potential-IO boundary. Preserve loose bytes
+        # and the pending/committed archive; never report this as zero requests.
+        raise MarketAttemptIncomplete(True) from None
     if not complete:raise MarketAttemptIncomplete(True) from None
     return result
 
@@ -173,6 +198,7 @@ class PublicMarketFeed:
         self.stop=threading.Event();self.lock=threading.Lock();self.subscriptions=();self.pending=None
         self.thread=None;self.used=False;self.state='WAITING_FOR_ACCEPTED_RUN'
         self.requests=self.responses=self.completed=self.incomplete=0
+        self.archive_status=None
 
     def __enter__(self):
         if self.used:raise ValueError('Fresh public feed scope required')
@@ -189,12 +215,18 @@ class PublicMarketFeed:
         return result
 
     def summary(self):
-        with self.lock:return dict(market_source='OKX_PUBLIC_READ_ONLY',acquisition_status=self.state,
-            completed_batches=self.completed,incomplete_batches=self.incomplete,
-            provider_requests=None if self.incomplete else self.requests,provider_responses=None if self.incomplete else self.responses,
-            completed_batch_requests=self.requests,completed_batch_responses=self.responses,
-            request_accounting='INCOMPLETE' if self.incomplete else 'COMPLETE',
-            credentials='NONE',provider_mutation=0)
+        with self.lock:
+            archive=self.archive_status or {}
+            return dict(market_source='OKX_PUBLIC_READ_ONLY',acquisition_status=self.state,
+                completed_batches=self.completed,incomplete_batches=self.incomplete,
+                provider_requests=None if self.incomplete else self.requests,provider_responses=None if self.incomplete else self.responses,
+                completed_batch_requests=self.requests,completed_batch_responses=self.responses,
+                request_count_scope='THIS_FEED_INSTANCE',request_accounting='INCOMPLETE' if self.incomplete else 'COMPLETE',
+                cumulative_capture_accounting=archive.get('request_accounting','UNOBSERVED'),
+                cumulative_provider_requests=archive.get('provider_requests'),cumulative_provider_responses=archive.get('provider_responses'),
+                cumulative_request_budget_upper=archive.get('request_budget_upper'),
+                cumulative_capture_scope='LAST_KNOWN_VERIFIED_ARCHIVE_SNAPSHOT_NOT_FINANCIAL_PERMISSION',
+                credentials='NONE',provider_mutation=0)
 
     def _run(self):
         while not self.stop.is_set():
@@ -208,12 +240,20 @@ class PublicMarketFeed:
                     raise MarketAttemptIncomplete(True)
                 with self.lock:
                     self.requests+=result['provider_requests'];self.responses+=result['provider_responses'];self.completed+=1
-                    self.state=result['status'];self.pending=result if result['status']=='PUBLIC_MARKET_ACQUIRED' else None
+                    self.state='PUBLIC_EXPOSURE_MANAGEMENT_ONLY' if result.get('management_only') is True else result['status']
+                    self.pending=result if result['status']=='PUBLIC_MARKET_ACQUIRED' else None
             except MarketAttemptIncomplete as error:
                 with self.lock:self.incomplete+=1;self.state='PUBLIC_ACCOUNTING_INCOMPLETE';self.pending=None
                 if not error.reaped:break
             except (ValueError,RuntimeError,OSError,TypeError,KeyError):
                 with self.lock:self.state='PUBLIC_ACQUISITION_DENIED';self.pending=None
+            finally:
+                # Disk verification remains in this acquisition thread; owner
+                # polls only the cached diagnostic. A restart cannot relabel
+                # persistent unknown totals as complete or invent zero calls.
+                try:archive=_archive_for(self.config).summary()
+                except (ValueError,RuntimeError,OSError,TypeError,KeyError):archive=None
+                with self.lock:self.archive_status=archive
             self.stop.wait(self.profile['poll_interval_seconds'])
 
     def __exit__(self,*args):

@@ -1,0 +1,89 @@
+test_fixed_ticker_only_capture_has_one_actual_count_and_no_history_or_entry_scope (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_fixed_ticker_only_capture_has_one_actual_count_and_no_history_or_entry_scope) ... ERROR
+test_management_quote_and_later_deadline_cannot_first_fill_actual_entry_ack (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_management_quote_and_later_deadline_cannot_first_fill_actual_entry_ack) ... ERROR
+test_management_quote_still_triggers_original_protective_exit_and_retains_pending_funding (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_management_quote_still_triggers_original_protective_exit_and_retains_pending_funding) ... ERROR
+test_no_exposure_or_nonboolean_scope_cannot_dispatch_quote_reserve (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_no_exposure_or_nonboolean_scope_cannot_dispatch_quote_reserve) ... ERROR
+test_normal_capacity_refusal_uses_finite_reserve_only_for_exposed_subscriptions (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_normal_capacity_refusal_uses_finite_reserve_only_for_exposed_subscriptions) ... ERROR
+test_only_actual_owner_exposure_is_exported_and_pending_flat_does_not_spend_reserve (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_only_actual_owner_exposure_is_exported_and_pending_flat_does_not_spend_reserve) ... ERROR
+
+======================================================================
+ERROR: test_fixed_ticker_only_capture_has_one_actual_count_and_no_history_or_entry_scope (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_fixed_ticker_only_capture_has_one_actual_count_and_no_history_or_entry_scope)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_exposure_only_market.py", line 25, in test_fixed_ticker_only_capture_has_one_actual_count_and_no_history_or_entry_scope
+    h=self.public();calls=[]
+      ^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_exposure_only_market.py", line 21, in public
+    helper.subscription=replace(helper.subscription,exposure_open=True)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\dataclasses.py", line 1588, in replace
+    return obj.__class__(**changes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: MarketSubscription.__init__() got an unexpected keyword argument 'exposure_open'
+
+======================================================================
+ERROR: test_management_quote_and_later_deadline_cannot_first_fill_actual_entry_ack (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_management_quote_and_later_deadline_cannot_first_fill_actual_entry_ack)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_exposure_only_market.py", line 62, in test_management_quote_and_later_deadline_cannot_first_fill_actual_entry_ack
+    outcome=case.runtime.on_market_event(replace(case.event(1),management_only=True))
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\dataclasses.py", line 1588, in replace
+    return obj.__class__(**changes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: PaperMarketEvent.__init__() got an unexpected keyword argument 'management_only'
+
+======================================================================
+ERROR: test_management_quote_still_triggers_original_protective_exit_and_retains_pending_funding (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_management_quote_still_triggers_original_protective_exit_and_retains_pending_funding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_exposure_only_market.py", line 75, in test_management_quote_still_triggers_original_protective_exit_and_retains_pending_funding
+    self.assertEqual(case.runtime.on_market_event(replace(case.event(2,price='60020'),management_only=True)).status,'EXIT_REQUESTED')
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\dataclasses.py", line 1588, in replace
+    return obj.__class__(**changes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: PaperMarketEvent.__init__() got an unexpected keyword argument 'management_only'
+
+======================================================================
+ERROR: test_no_exposure_or_nonboolean_scope_cannot_dispatch_quote_reserve (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_no_exposure_or_nonboolean_scope_cannot_dispatch_quote_reserve)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_exposure_only_market.py", line 39, in test_no_exposure_or_nonboolean_scope_cannot_dispatch_quote_reserve
+    h=self.public()
+      ^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_exposure_only_market.py", line 21, in public
+    helper.subscription=replace(helper.subscription,exposure_open=True)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\dataclasses.py", line 1588, in replace
+    return obj.__class__(**changes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: MarketSubscription.__init__() got an unexpected keyword argument 'exposure_open'
+
+======================================================================
+ERROR: test_normal_capacity_refusal_uses_finite_reserve_only_for_exposed_subscriptions (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_normal_capacity_refusal_uses_finite_reserve_only_for_exposed_subscriptions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_exposure_only_market.py", line 83, in test_normal_capacity_refusal_uses_finite_reserve_only_for_exposed_subscriptions
+    h=self.public();fixture=feed_fixture.PublicPaperFeedTests();self.addCleanup(fixture.doCleanups)
+      ^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_exposure_only_market.py", line 21, in public
+    helper.subscription=replace(helper.subscription,exposure_open=True)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\dataclasses.py", line 1588, in replace
+    return obj.__class__(**changes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: MarketSubscription.__init__() got an unexpected keyword argument 'exposure_open'
+
+======================================================================
+ERROR: test_only_actual_owner_exposure_is_exported_and_pending_flat_does_not_spend_reserve (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_only_actual_owner_exposure_is_exported_and_pending_flat_does_not_spend_reserve)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_exposure_only_market.py", line 51, in test_only_actual_owner_exposure_is_exported_and_pending_flat_does_not_spend_reserve
+    self.assertFalse(descriptor().exposure_open)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MarketSubscription' object has no attribute 'exposure_open'
+
+----------------------------------------------------------------------
+Ran 6 tests in 12.353s
+
+FAILED (errors=6)

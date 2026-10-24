@@ -30,10 +30,12 @@ class PaperMarketEvent:
     snapshot: MarketSnapshot
     candles: tuple[Candle, ...]
     source_kind: str
+    management_only: bool=False
     def __post_init__(self):
         if (not isinstance(self.snapshot, MarketSnapshot) or not isinstance(self.candles, tuple) or
             len(self.candles) > 16_000 or any(not isinstance(row, Candle) for row in self.candles) or
-            self.source_kind not in ('FIXTURE', 'PUBLIC_MARKET')):
+            self.source_kind not in ('FIXTURE', 'PUBLIC_MARKET') or type(self.management_only) is not bool
+            or self.management_only and (self.source_kind!='PUBLIC_MARKET' or self.candles)):
             raise ValueError('Actual bounded E1 market/candle event required')
 
 
@@ -342,8 +344,10 @@ class PaperRuntime:
                 frame.append(row.to_interchange_dict())
         material=dict(kind='MARKET',snapshot=event.snapshot.to_interchange_dict(),
             candles=[row.to_interchange_dict() for row in event.candles],source_kind=event.source_kind)
+        if event.management_only:material['management_only']=True
         identities=canonical(dict(run_id=self.run_id,observed_at=material['snapshot']['observed_at'],
-            candle_boundaries=[(row.symbol,row.timeframe,row.close_time.isoformat()) for row in event.candles]))
+            candle_boundaries=[(row.symbol,row.timeframe,row.close_time.isoformat()) for row in event.candles],
+            **(dict(management_only=True) if event.management_only else {})))
         operation_id='market_'+hashlib.sha256(identities.encode()).hexdigest()
         return self.coordinator.execute(operation_id,material)
 

@@ -85,6 +85,7 @@ class MarketSubscription:
     # frame, requested warmup bars, cache capacity, last durable close (or None).
     frames:tuple
     last_observed_at:str|None
+    exposure_open:bool=False
 
 
 def subscription(runtime,namespace,runtime_token):
@@ -100,5 +101,7 @@ def subscription(runtime,namespace,runtime_token):
         cached=state['candles'].get(frame,[])
         frames.append((frame,min(cap,requested+1),cap,cached[-1]['close_time'] if cached else None))
     market=state['last_market']
+    from brokers.paper import PaperBroker
+    exposed=PaperBroker.from_state(recovered.state['broker']).query_position(strategy.symbol).net_quantity!=0
     return MarketSubscription(runtime.run_id,namespace,runtime_token,recovered.process_generation,
-        strategy.content_hash,strategy.symbol,tuple(frames),None if market is None else market['observed_at'])
+        strategy.content_hash,strategy.symbol,tuple(frames),None if market is None else market['observed_at'],exposed)

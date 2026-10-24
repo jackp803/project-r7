@@ -140,6 +140,7 @@ class PaperEngine:
             and market.freshness_ms<=self.config['market_max_age_seconds']*1000)
 
     def _entry_allowed(self, runtime, now,*,ignore_funding=False):
+        if runtime.get('market_management_only') is True:return False,'PUBLIC_MARKET_MANAGEMENT_ONLY'
         if not self.reconciled: return False,'RECONCILIATION_REQUIRED'
         if not self.service.history_ready(self.run_id):return False,'HISTORY_AUDIT_REQUIRED'
         if not runtime['paper_entries_allowed']: return False,'PAPER_ENTRIES_PAUSED'
@@ -484,6 +485,10 @@ class PaperEngine:
                 reason_code='PUBLIC_FUNDING_SOURCE_UNAVAILABLE',observed_at=None,coverage_start=None,complete_through=None,snapshot_hash=None))
         kind=request['kind']; market=_market(runtime['last_market']) if runtime['last_market'] else None
         if kind=='MARKET':
+            if request.get('management_only') is True:
+                if request['source_kind']!='PUBLIC_MARKET' or request['candles']:raise ValueError('Protective quote cannot contain entry history')
+                runtime['market_management_only']=True
+            else:runtime.pop('market_management_only',None)
             market=_market(request['snapshot'])
             runtime['last_market']=request['snapshot']
             for payload in request['candles']:
@@ -510,7 +515,7 @@ class PaperEngine:
         elif kind=='PAUSE': status,reasons='PAUSED',()
         elif kind=='MARKET': status,reasons=self._evaluate(runtime,broker,effects,market,now)
         else: status,reasons='HOLD',()
-        if self.service.recorded_funding and kind=='MARKET' and (status=='FUNDING_PENDING'
+        if self.service.recorded_funding and kind=='MARKET' and not runtime.get('market_management_only') and (status=='FUNDING_PENDING'
                 or 'PUBLIC_FUNDING_SOURCE_UNAVAILABLE' in reasons):
             self._funding_opportunity(runtime,broker,market,now)
         position=runtime['position']
@@ -519,7 +524,7 @@ class PaperEngine:
         # operating time, but assessment separately blocks financial PASS.
         # Other recorded-model observations need a current actual source.
         source_ready=not self.service.recorded_funding or self.service.funding_observation() is not None
-        healthy=self.service.history_ready(self.run_id) and self._fresh(market,now) and self.reconciled and (pending_flat or
+        healthy=not runtime.get('market_management_only') and self.service.history_ready(self.run_id) and self._fresh(market,now) and self.reconciled and (pending_flat or
             (source_ready and (position is None or position['lifecycle_state'] in ('OPEN_PROTECTED','PROFIT_PROTECTED','CLOSED'))))
         record_forward_observation(runtime,self.service,now,healthy)
         if self.service.process.requires_history_audit(self.run_id):

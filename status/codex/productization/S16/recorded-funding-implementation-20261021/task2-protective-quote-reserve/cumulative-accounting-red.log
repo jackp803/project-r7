@@ -1,0 +1,15 @@
+test_fresh_feed_discloses_persistent_unknown_archive_counts_separately_from_current_batch (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_fresh_feed_discloses_persistent_unknown_archive_counts_separately_from_current_batch) ... ERROR
+
+======================================================================
+ERROR: test_fresh_feed_discloses_persistent_unknown_archive_counts_separately_from_current_batch (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_fresh_feed_discloses_persistent_unknown_archive_counts_separately_from_current_batch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_exposure_only_market.py", line 145, in test_fresh_feed_discloses_persistent_unknown_archive_counts_separately_from_current_batch
+    self.assertEqual(summary['request_count_scope'],'THIS_FEED_INSTANCE')
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'request_count_scope'
+
+----------------------------------------------------------------------
+Ran 1 test in 3.149s
+
+FAILED (errors=1)

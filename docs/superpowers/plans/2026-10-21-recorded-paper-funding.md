@@ -133,6 +133,26 @@ Final delivery must separately report six-Task status, waiting/opportunity impac
 
 ## Plan self-review and execution record
 
+### Task2 remaining protective quote reserve — 2026-10-24 execution refinement
+
+Use existing finite public archive emergency reserve only for owner-exported
+actual nonzero Paper exposure when normal acquisition refuses accounting/byte/
+file/disk admission. Corrupt committed roots, full reserve and pending capture
+limits still refuse before network. No capacity/count reset or history deletion.
+Acquire exactly one fixed BTC public ticker GET, retain raw capture and exact
+counts, no history/funding/private request. Preserve both owning generation fences.
+Public result/event has explicit management-only scope; no candles, entry,
+first fill, opportunity qualification or healthy-forward credit can arise from
+it, including later deadline ticks using its quote. Protection/exit/funding
+finalization continue. A subsequent normal full-source event can restore normal
+market scope; all original authority/source/history/risk gates still apply.
+
+TDD acquisition/source-scope injection, original actual owner exposure export,
+first-fill refusal versus actual protective exit, reserve dispatch/no-exposure/
+corrupt-root refusals and restart/unknown cumulative accounting. Then existing
+public market/feed/funding/archive/runtime regressions. Same approved Task2,
+no financial or retention-policy relaxation; compact fact layout review separate.
+
 - Spec sections1–2 map Task1/4; section3 maps Task2/4; section4 maps Task3; section5 maps Tasks4–6; all nine acceptance categories map Tasks1–6 and Review Focus.
 - Task2 produces Task1-validated observations consumed by Tasks3/4; Task3 funding-status projection feeds Task5; Task6 requalifies all changed code, not just Task1. Preserve this direction; no E4 dependency on application modules.
 - Existing Master execution method is inline local execution on this same branch. Human reviewed the plan and conditionally approved continuous implementation after P0-1/P0-2/P1 additions; these additions are recorded above before product work. No new per-Task approval is needed.

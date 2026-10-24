@@ -1,0 +1,18 @@
+test_fresh_feed_discloses_persistent_unknown_archive_counts_separately_from_current_batch (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_fresh_feed_discloses_persistent_unknown_archive_counts_separately_from_current_batch) ... ERROR
+
+======================================================================
+ERROR: test_fresh_feed_discloses_persistent_unknown_archive_counts_separately_from_current_batch (tests.application.test_paper_exposure_only_market.ExposureOnlyMarketTests.test_fresh_feed_discloses_persistent_unknown_archive_counts_separately_from_current_batch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_exposure_only_market.py", line 127, in test_fresh_feed_discloses_persistent_unknown_archive_counts_separately_from_current_batch
+    archive.commit(capture,{'interrupted.json':b'{}'},requests=0,responses=0,complete=False)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_archive.py", line 488, in commit
+    _fail('RESERVATION_EXCEEDED')
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_archive.py", line 52, in _fail
+    raise ValueError('PUBLIC_ARCHIVE_'+reason)
+ValueError: PUBLIC_ARCHIVE_RESERVATION_EXCEEDED
+
+----------------------------------------------------------------------
+Ran 1 test in 0.104s
+
+FAILED (errors=1)

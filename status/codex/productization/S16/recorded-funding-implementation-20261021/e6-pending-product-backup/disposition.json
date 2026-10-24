@@ -1,0 +1,81 @@
+{
+  "status": "SOURCE_PENDING_NORMAL_PRODUCT_BACKUP_VERIFY_RESTORE_PASS_NATIVE_AND_WHOLE_CAPACITY_REMAIN",
+  "source_revision": "d61450e8bd5f77ce2fe684916aee711e86ce303a",
+  "source_hashes": {
+    "src/storage/paper_process.py": "sha256:f98727b1667889bd11456cbb4d074d4bbf641f53817d8c986023cd3a37d0ddac",
+    "src/storage/paper_state_codec.py": "sha256:59ed2dc7d8762c078f92b9d28427c49d46701cfd569a4a3b743c039d93fe5609",
+    "src/storage/paper_history_audit.py": "sha256:336eec79c94c202a50425640d4a8da189fe119d48ef4fa4c947f42f1c690d8db",
+    "src/application/platform/product_backup.py": "sha256:2af5b997b65173e2dab8aa0b324d6f837bd639d5a5ad0e766a51568f96d3ed5a",
+    "src/application/platform/database_restore.py": "sha256:11a2a81c1553588cbc486deb473d52fd3aa538f941344f3ccb8cf122571d5705"
+  },
+  "retained": [
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-pending-product-backup/measurement_driver.py",
+      "sha256": "sha256:2c751826c744e87e6e818231f9146f584bbd83a0e9579c6cdf7d5b94f72bf7f8",
+      "original_sha256": "sha256:2c751826c744e87e6e818231f9146f584bbd83a0e9579c6cdf7d5b94f72bf7f8"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-pending-product-backup/result.json",
+      "sha256": "sha256:d66b0758afcd5262060c35cdf0e5b8f36dee048786e44244e2358f0fdb1890fb",
+      "original_sha256": "sha256:d66b0758afcd5262060c35cdf0e5b8f36dee048786e44244e2358f0fdb1890fb"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-pending-product-backup/measurement.log",
+      "sha256": "sha256:f3b0d284ecdc5e00ca03b85ebdd176cf1b4c6b656178eb2a4ddfe2bec927aa7f",
+      "original_sha256": "sha256:c6d3c90234910a22783c5679efa6dff2b0fd676fb78e4078c3008b896c4539a0"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-pending-product-backup/regression.log",
+      "sha256": "sha256:d834acba8585e88a921e1641ba4c0565713960fa7e22d75c0dccca878726e87d",
+      "original_sha256": "sha256:5eb496db6c9f88d43209beead9f95683b58d2057bc6a4af37d5613424be7df72"
+    }
+  ],
+  "regression_tests": 23,
+  "phases": [
+    {
+      "phase": "CREATE_FULL_PRODUCT_BACKUP",
+      "status": "PASS",
+      "wall_seconds": 0.9740473999991082
+    },
+    {
+      "phase": "INDEPENDENT_VERIFY",
+      "status": "PASS",
+      "wall_seconds": 0.18057810002937913
+    },
+    {
+      "phase": "RESTORE_NORMAL_PRODUCT",
+      "status": "PASS",
+      "wall_seconds": 0.7763228000258096
+    }
+  ],
+  "source": {
+    "run_id": "paper_c838210d277aa46b53cafa46662322dc68c2f8c92f988ccd77ad9f8bce06ea2b",
+    "revision": 4,
+    "generation": 1,
+    "state_sha256": "sha256:c94e204d0da5c8f49725c23f024cc527bc0ca50129af1c156c97a2dc8c456311",
+    "position": "EXIT_REQUESTED",
+    "financial_status": "PENDING_FUNDING_NO_FINAL_SAMPLE",
+    "selected_policy": "EXISTING_CONTROLLED_FIXTURE_NOT_HUMAN_POLICY"
+  },
+  "restored": {
+    "status": "RESTORED_INHIBITED",
+    "generation": 2,
+    "exact_original_bytes": true,
+    "pending_funding_retained": true,
+    "history_proof_imported": false,
+    "cloud_connected": false,
+    "paper_runtime_enabled": false,
+    "reconciliation": "REQUIRED",
+    "reauthorization": "REQUIRED",
+    "restore_clock": "EXPLICIT_CONTROLLED_SOURCE_CLOCK_NOT_NATIVE_WALL_CLOCK"
+  },
+  "new_public_requests": 0,
+  "cumulative_public_requests": 20,
+  "cumulative_public_responses": 19,
+  "private_requests": 0,
+  "provider_mutation": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "ordinary_observation": "NOT_STARTED",
+  "github_compute": "NOT_USED"
+}

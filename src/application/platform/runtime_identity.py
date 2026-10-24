@@ -119,8 +119,7 @@ def read_runtime_identity(config, *, now=None, max_age_seconds=15):
     if (not isinstance(config, ProductConfig) or type(max_age_seconds) is not int
             or not 1 <= max_age_seconds <= 60):
         raise ValueError('Validated configuration and bounded freshness policy required')
-    current = datetime.now(timezone.utc) if now is None else now
-    observed = stamp(current)
+    if now is not None:stamp(now)
     path = config.local_data_root / 'process-supervision.sqlite'
     try:
         _local_path(path)
@@ -158,6 +157,11 @@ def read_runtime_identity(config, *, now=None, max_age_seconds=15):
                 raise RuntimeIdentityUnavailable('RUNTIME_NOT_RUNNING')
             if value['product_instance_id'] != config.product_instance_id or value['config_hash'] != config_hash(config):
                 raise RuntimeIdentityUnavailable('RUNTIME_CONFIG_CHANGED')
+            # Observe after establishing/reading the coherent SQLite snapshot.
+            # An actual concurrent heartbeat must not look newer than a clock
+            # sampled before it committed. Explicit caller time stays exact.
+            current = datetime.now(timezone.utc) if now is None else now
+            observed = stamp(current)
             start, heartbeat = _time(row['started_at']), _time(row['heartbeat_at'])
             if (heartbeat < start or current < heartbeat or (current - heartbeat).total_seconds() > max_age_seconds
                     or type(row['heartbeat_sequence']) is not int or not 0 <= row['heartbeat_sequence'] < 2**63):

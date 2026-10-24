@@ -1,0 +1,14 @@
+{"closed_trades": 1, "requested_completed": 1, "revision": 5, "logical_state_bytes": 104702, "cached4h_bars": 256, "sqlite_bytes": 1122304, "wall_seconds": 5.054762899992056, "peak_working_set_bytes": 96563200, "working_set_bytes": 96563200, "peak_pagefile_bytes": 71499776}
+{"closed_trades": 5, "requested_completed": 5, "revision": 25, "logical_state_bytes": 139072, "cached4h_bars": 256, "sqlite_bytes": 1658880, "wall_seconds": 7.091518800007179, "peak_working_set_bytes": 98803712, "working_set_bytes": 98803712, "peak_pagefile_bytes": 73670656}
+{"closed_trades": 10, "requested_completed": 10, "revision": 50, "logical_state_bytes": 182043, "cached4h_bars": 256, "sqlite_bytes": 2502656, "wall_seconds": 10.233725099940784, "peak_working_set_bytes": 101330944, "working_set_bytes": 101330944, "peak_pagefile_bytes": 75689984}
+{"closed_trades": 20, "requested_completed": 20, "revision": 100, "logical_state_bytes": 267970, "cached4h_bars": 256, "sqlite_bytes": 4386816, "wall_seconds": 18.49030559998937, "peak_working_set_bytes": 103415808, "working_set_bytes": 103215104, "peak_pagefile_bytes": 78278656}
+{"closed_trades": 30, "requested_completed": 30, "revision": 150, "logical_state_bytes": 353911, "cached4h_bars": 256, "sqlite_bytes": 6631424, "wall_seconds": 29.34259569994174, "peak_working_set_bytes": 105127936, "working_set_bytes": 103411712, "peak_pagefile_bytes": 79392768}
+{"entry_exception": "EvidenceGateError", "reason": "Current qualified native Paper selection/runtime evidence required"}
+Traceback (most recent call last):
+  File "<PROJECT>\artifacts\current-windows-20261019\ordinary-paper-policy-commissioning-20261021\produce_compact_trade_corpus_90_diag2.py", line 80, in <module>
+    step(event(offset+1,price),'ACKNOWLEDGED');step(event(offset+2,price),'PROTECTED')
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT>\artifacts\current-windows-20261019\ordinary-paper-policy-commissioning-20261021\produce_compact_trade_corpus_90_diag2.py", line 25, in step
+    if outcome.status!=expected:raise RuntimeError('SOURCE_FLOW_REFUSED:'+outcome.status+':'+str(outcome.reason_codes))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SOURCE_FLOW_REFUSED:BLOCKED:('PAPER_RELEASE_NOT_CURRENT',)

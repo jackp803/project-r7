@@ -1,3 +1,75 @@
+# Current compact candidate fails finite gate; independent source fixes — 2026-10-24
+
+Same Master/branch; main re-fetched unchanged7d1f447. Human conditional compact
+scope recorded, prior checkpoint/delta/recovery approval retained. Detailed
+spec/plan and independent readonly E6/E7 technical review completed. Byte-data
+versus original canonical membership boundary consistent in principle; no E7
+authority signature or production SQL/selector/transaction/native qualification.
+
+B/C/D finite whole-SQLite clones all exact cell/type roundtrip. Source47.87MB,
+B28.90MB,C22.90MB,D18.69MB. Timings are bulk clone and warmed-SQLite/empty-decoded
+cache, not cold owner recovery; original mislabeled keys retained/corrected.
+Prototype aggregate decode allocation finding RED->GREEN;7prototype tests PASS.
+Do not infer product fit from the optimistic short sample or sum independently
+allowed archive maxima as guaranteed simultaneous entitlement.
+
+Actual source E2/E4/E5/E6 corpus90closed/protected head/full256cached4h plus
+128controlled seconds/154operations completed/reaped225s. Controlled source,
+clock/native policy, fixture fee0.00005; not human selected policy, real time,
+multiframe/30day/native credit. D paired measured24.084->24.809MB; removing only
+experiment ordinal UNIQUE indices in RAM gives700416byte increment. With further
+generous9234byte credit, fixed-mature-state linear increment+measured3.622GB
+archive17582409596bytes>17179869184(16GiB), omitting static/later growth/extra
+timeframes/backup favorably. CURRENT CANDIDATE FINITE FEASIBILITY GATE FAILED.
+Per human stop condition NO_P1_P2 compact product integration, raised limits or
+history deletion. Not proof every lossless format impossible. Unvalidated next
+alternative: shared immutable historical broker/runtime subtree byte recipes,
+requiring bounded format measurement and unchanged-contract mapping first.
+
+Independent real supervisor-heartbeat race reproduced: early default clock could
+precede a concurrent commit. Default now sampled after coherent snapshot; explicit
+time/freshness unchanged.56focused PASS and successful90trade normal release path.
+Independent original checkpoint cache now retains last2verified predecessors
+inside original4row/64MiB exact-epoch cache, own hashes/chain bounds/journal JSON/
+actual metadata. Optional invalid history skipped, no new current gate; standalone
+full readers/history permission unchanged.335storage PASS. Same90closed fresh E6
+current-facts diagnostic1.661->0.993s, OS cache uncontrolled; not full owner/E5/
+history/native recovery or proof of1s protection latency.
+
+All errors retained: original controller stdout deadlock job124NO_PASS, overlong
+diagnostic path, unsupported discovery invocation, aggregate template RED and
+combined regression batch manually stopped~317sNO_PASS. Corrected controller
+drains/reaps under hard300s/64KiB; actual16KiB pipe test PASS. Final strict bounded
+groups84identity/worker PASS125.86s,34encoded-funding/gates PASS142.33s,28legacy
+Paper lifecycle PASS71.73s, all reaped. Exact results in disposition/logs.
+
+New executable qualification/actual30day wholevolume/full mature backup/native
+PQR/selected-policy research and admission remain. Ordinary observationNOT_STARTED.
+Only bffc558 retains its own prior executable receipt; no transfer. Public requests
+20/19cumulative unchanged,0new/private/mutation,credentialsNONE/capitalNONE/LIVEoff/
+GitHub computeNOT_USED. OldPC/Ubuntu/realcloud/actual48h30d/trades remain independent.
+Evidence: status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/disposition.json
+
+---
+
+# Compact fact layout conditional approval recorded — 2026-10-24
+
+Human approved additional bounded E6 compact layout/typed refs/binary/shared facts
+and private segmented history, retaining previous checkpoint/recovery approval.
+Detailed design + finite actual-SQLite CPU/RSS/current-recovery comparison + E6/E7
+contract review are PRECONDITIONS to production integration. No per-step reapproval
+inside accepted scope; if prototype cannot show feasibility, report exact blocker
+and alternatives, no speculative expansion/raised bounds. Actual30day3,110,400ops
+with real components, full backup/verify/restore16GiB4096files300s/jobs and exact
+new Windows owning qualification still mandatory. No old bffc transfer, actual
+account/keys/orders/10U/LIVE. Other independent original work continues.
+Main re-fetched unchanged7d1f447; existing sourcefd10db6 preserved. Initial scope:
+read-only original4321revision source snapshot, finite non-authoritative prototype
+artifacts only; do not modify product schema/APIs until feasibility/contract gate.
+Decision: status/codex/productization/S16/recorded-funding-implementation-20261021/e6-compact-fact-layout-operator-decision.json
+
+---
+
 # Source protective quote reserve + pending backup pass; new layout review pending — 2026-10-24
 
 Same Master/branch/main7d1f447. Existing Task2 finite reserve now wired through

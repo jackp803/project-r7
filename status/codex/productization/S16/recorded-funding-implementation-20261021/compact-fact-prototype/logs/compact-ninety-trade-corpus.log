@@ -1,0 +1,13 @@
+{"closed_trades": 1, "requested_completed": 1, "revision": 5, "logical_state_bytes": 104702, "cached4h_bars": 256, "sqlite_bytes": 1122304, "wall_seconds": 5.148371599963866, "peak_working_set_bytes": 96681984, "working_set_bytes": 96681984, "peak_pagefile_bytes": 71778304}
+{"closed_trades": 5, "requested_completed": 5, "revision": 25, "logical_state_bytes": 139072, "cached4h_bars": 256, "sqlite_bytes": 1658880, "wall_seconds": 7.202468500006944, "peak_working_set_bytes": 99246080, "working_set_bytes": 99246080, "peak_pagefile_bytes": 74129408}
+{"closed_trades": 10, "requested_completed": 10, "revision": 50, "logical_state_bytes": 182043, "cached4h_bars": 256, "sqlite_bytes": 2502656, "wall_seconds": 10.338648300035857, "peak_working_set_bytes": 101892096, "working_set_bytes": 101892096, "peak_pagefile_bytes": 76201984}
+{"closed_trades": 20, "requested_completed": 20, "revision": 100, "logical_state_bytes": 267970, "cached4h_bars": 256, "sqlite_bytes": 4386816, "wall_seconds": 18.51137199997902, "peak_working_set_bytes": 103624704, "working_set_bytes": 103485440, "peak_pagefile_bytes": 78491648}
+{"closed_trades": 30, "requested_completed": 30, "revision": 150, "logical_state_bytes": 353911, "cached4h_bars": 256, "sqlite_bytes": 6631424, "wall_seconds": 29.33122860000003, "peak_working_set_bytes": 105598976, "working_set_bytes": 103383040, "peak_pagefile_bytes": 80060416}
+Traceback (most recent call last):
+  File "<PROJECT>\artifacts\current-windows-20261019\ordinary-paper-policy-commissioning-20261021\produce_compact_trade_corpus_90.py", line 58, in <module>
+    step(event(offset+1,price),'ACKNOWLEDGED');step(event(offset+2,price),'PROTECTED')
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT>\artifacts\current-windows-20261019\ordinary-paper-policy-commissioning-20261021\produce_compact_trade_corpus_90.py", line 25, in step
+    if outcome.status!=expected:raise RuntimeError('SOURCE_FLOW_REFUSED:'+outcome.status+':'+str(outcome.reason_codes))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SOURCE_FLOW_REFUSED:BLOCKED:('PAPER_RELEASE_NOT_CURRENT',)

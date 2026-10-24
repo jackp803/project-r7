@@ -1,0 +1,17 @@
+test_default_observation_clock_is_sampled_after_actual_concurrent_heartbeat_snapshot (tests.application.test_runtime_identity_read.RuntimeIdentityReadTests.test_default_observation_clock_is_sampled_after_actual_concurrent_heartbeat_snapshot) ... ERROR
+
+======================================================================
+ERROR: test_default_observation_clock_is_sampled_after_actual_concurrent_heartbeat_snapshot (tests.application.test_runtime_identity_read.RuntimeIdentityReadTests.test_default_observation_clock_is_sampled_after_actual_concurrent_heartbeat_snapshot)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT>\workspaces\project-r7-productization-master-20261002\tests\application\test_runtime_identity_read.py", line 148, in test_default_observation_clock_is_sampled_after_actual_concurrent_heartbeat_snapshot
+    snapshot=self.module.read_runtime_identity(self.config)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT>\workspaces\project-r7-productization-master-20261002\src\application\platform\runtime_identity.py", line 164, in read_runtime_identity
+    raise RuntimeIdentityUnavailable('RUNTIME_HEARTBEAT_INVALID')
+application.platform.runtime_identity.RuntimeIdentityUnavailable: RUNTIME_HEARTBEAT_INVALID
+
+----------------------------------------------------------------------
+Ran 1 test in 0.440s
+
+FAILED (errors=1)

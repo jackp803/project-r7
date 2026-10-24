@@ -208,7 +208,7 @@ def _unpack(encoded,run_id,revision):
     return value,parsed,text
 
 
-def decode_state_record(encoded,*,run_id,revision,expected_hash,read_previous):
+def _decode_state_records(encoded,*,run_id,revision,expected_hash,read_previous,retain_previous=False):
     """Validate every original link and return opaque bounded-chain data."""
     _identity(run_id,revision)
     if type(expected_hash) is not str or not _HASH.fullmatch(expected_hash) or not callable(read_previous):_fail('HASH_OR_READER_INVALID')
@@ -218,21 +218,41 @@ def decode_state_record(encoded,*,run_id,revision,expected_hash,read_previous):
         envelope,value,text=_unpack(current,run_id,at)
         chain_bytes+=envelope['payload_bytes']
         if chain_bytes>MAX_CHAIN_BYTES:_fail('CHAIN_BYTES_LIMIT')
-        chain.append((envelope['kind'],value,wanted))
+        chain.append((envelope['kind'],value,wanted,at,envelope['payload_bytes']))
         if envelope['kind']=='KEYFRAME':break
         at=envelope['base_revision'];wanted=envelope['base_hash']
         try:row=read_previous(at)
         except (KeyError,IndexError,ValueError,TypeError,OSError):_fail('BASE_UNAVAILABLE')
         if type(row) is not tuple or len(row)!=2 or row[1]!=wanted:_fail('BASE_INVALID')
         current=row[0]
-    state=None;result=None
-    for kind,value,wanted in reversed(chain):
+    state=None;result=None;retained=[];payload_bytes=0
+    for links,(kind,value,wanted,at,size) in enumerate(reversed(chain),1):
+        payload_bytes+=size
         if kind=='KEYFRAME':state=value
         else:state=_apply(state,value)
         _pure(state);raw=_canonical(state)
         if type(state) is not dict or _digest(raw)!=wanted:_fail('STATE_HASH_MISMATCH')
         result=raw.decode('utf-8')
-    return _read_record(result,run_id,revision,expected_hash,len(chain),chain_bytes)
+        if retain_previous and len(chain)-2<=links<len(chain):
+            retained.append(_read_record(result,run_id,at,wanted,links,payload_bytes))
+    return _read_record(result,run_id,revision,expected_hash,len(chain),chain_bytes),tuple(retained)
+
+
+def decode_state_record(encoded,*,run_id,revision,expected_hash,read_previous):
+    """Standalone decoding retains no additional logical state records."""
+    record,_=_decode_state_records(encoded,run_id=run_id,revision=revision,
+        expected_hash=expected_hash,read_previous=read_previous)
+    return record
+
+
+def _decode_state_record_window(encoded,*,run_id,revision,expected_hash,read_previous):
+    """E6-private data window, published only after the whole chain validates.
+
+    At most two predecessors; each has its own original identity and cumulative
+    chain bounds. No linked ancestor references or financial/audit permission.
+    """
+    return _decode_state_records(encoded,run_id=run_id,revision=revision,
+        expected_hash=expected_hash,read_previous=read_previous,retain_previous=True)
 
 
 def decode_state(encoded,*,run_id,revision,expected_hash,read_previous):

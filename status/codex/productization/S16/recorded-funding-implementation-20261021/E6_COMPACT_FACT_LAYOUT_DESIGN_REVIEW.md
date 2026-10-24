@@ -2,7 +2,14 @@
 
 Master: CODEX-R7-PRODUCTIZATION-MASTER-20261002.
 Branch: codex/r7-productization-master-20261002.
-Status: PROPOSED_NOT_YET_AUTHORIZED; existing checkpoint/recovery scope remains approved.
+Status: CONDITIONALLY_APPROVED_ADDITIONAL_BOUNDED_SCOPE; original checkpoint/recovery approval retained.
+
+Human decision2026-10-24: detailed design, finite measured prototypes and E6/E7
+contract review FIRST. If feasibility within unchanged limits is demonstrated,
+continuous implementation is authorized without per-step confirmation. No scope
+expansion if finite prototype does not support feasibility. See
+e6-compact-fact-layout-operator-decision.json for all conditions. The proposal
+below is retained as the reviewed record, not a new approval request.
 
 ## New measured conflict
 

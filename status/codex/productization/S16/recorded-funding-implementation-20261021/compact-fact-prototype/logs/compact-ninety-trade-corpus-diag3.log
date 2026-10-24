@@ -1,0 +1,10 @@
+{"closed_trades": 1, "requested_completed": 1, "revision": 5, "logical_state_bytes": 104702, "cached4h_bars": 256, "sqlite_bytes": 1122304, "wall_seconds": 5.171424799947999, "peak_working_set_bytes": 96366592, "working_set_bytes": 96366592, "peak_pagefile_bytes": 71282688}
+{"entry_exception_chain": [{"type": "EvidenceGateError", "reason": "Current qualified native Paper selection/runtime evidence required"}, {"type": "RuntimeIdentityUnavailable", "reason": "RUNTIME_HEARTBEAT_INVALID"}]}
+Traceback (most recent call last):
+  File "<PROJECT>\artifacts\current-windows-20261019\ordinary-paper-policy-commissioning-20261021\produce_compact_trade_corpus_90_diag3.py", line 83, in <module>
+    step(event(offset+1,price),'ACKNOWLEDGED');step(event(offset+2,price),'PROTECTED')
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT>\artifacts\current-windows-20261019\ordinary-paper-policy-commissioning-20261021\produce_compact_trade_corpus_90_diag3.py", line 25, in step
+    if outcome.status!=expected:raise RuntimeError('SOURCE_FLOW_REFUSED:'+outcome.status+':'+str(outcome.reason_codes))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: SOURCE_FLOW_REFUSED:BLOCKED:('PAPER_RELEASE_NOT_CURRENT',)

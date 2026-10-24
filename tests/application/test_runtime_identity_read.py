@@ -1,5 +1,5 @@
 """Read actual owned supervision fixtures; never attach a PAPER/trading worker."""
-from contextlib import closing
+from contextlib import closing,contextmanager
 from dataclasses import FrozenInstanceError, replace
 from datetime import datetime, timedelta, timezone
 import importlib
@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import sqlite3
+import time
 from tempfile import TemporaryDirectory
 import unittest
 from unittest.mock import patch
@@ -127,6 +128,35 @@ class RuntimeIdentityReadTests(unittest.TestCase):
         with self.owner():
             with self.assertRaises(self.module.RuntimeIdentityUnavailable):
                 self.module.read_runtime_identity(self.config, now=self.now - timedelta(seconds=1))
+
+    def test_default_observation_clock_is_sampled_after_actual_concurrent_heartbeat_snapshot(self):
+        with supervision.ProcessSupervisor(self.config,'runtime',heartbeat_interval=.02,clock=lambda:self.now) as owner:
+            fixture=self
+            class ObservationClock(datetime):
+                @classmethod
+                def now(cls,tz=None):return fixture.now
+            original=self.module._db;before=owner.health()['heartbeat_sequence']
+            @contextmanager
+            def after_heartbeat(path):
+                # The actual supervised writer commits after the reader starts,
+                # before its readonly snapshot. No DB row is injected here.
+                self.now+=timedelta(microseconds=1);deadline=time.monotonic()+2
+                while owner.health()['heartbeat_sequence']<=before and time.monotonic()<deadline:time.sleep(.005)
+                self.assertGreater(owner.health()['heartbeat_sequence'],before)
+                with original(path) as db:yield db
+            with patch.object(self.module,'datetime',ObservationClock),patch.object(self.module,'_db',after_heartbeat):
+                snapshot=self.module.read_runtime_identity(self.config)
+            self.assertEqual(snapshot.observed_at,self.now.isoformat(timespec='microseconds').replace('+00:00','Z'))
+            self.assertGreater(snapshot.heartbeat_sequence,before)
+
+    def test_default_clock_still_denies_a_genuinely_future_durable_heartbeat(self):
+        with self.owner():
+            fixture=self
+            class RegressedClock(datetime):
+                @classmethod
+                def now(cls,tz=None):return fixture.now-timedelta(seconds=1)
+            with patch.object(self.module,'datetime',RegressedClock),self.assertRaises(self.module.RuntimeIdentityUnavailable):
+                self.module.read_runtime_identity(self.config)
 
     def test_generation_counter_drift_is_denied(self):
         with self.owner():

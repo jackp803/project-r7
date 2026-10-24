@@ -1,0 +1,20 @@
+test_encoded_atom_candidate_d_keeps_precise_original_text_without_lexical_copy (__main__.CompactPrototypeTests.test_encoded_atom_candidate_d_keeps_precise_original_text_without_lexical_copy) ... ok
+test_exact_payload_delta_and_keyframe_boundaries (__main__.CompactPrototypeTests.test_exact_payload_delta_and_keyframe_boundaries) ... ok
+test_metadata_text_is_exact_not_semantic_normalization (__main__.CompactPrototypeTests.test_metadata_text_is_exact_not_semantic_normalization) ... ok
+test_missing_foreign_identity_and_corruption_refuse (__main__.CompactPrototypeTests.test_missing_foreign_identity_and_corruption_refuse) ... ok
+test_outcome_shares_exact_payload_bytes_without_creating_membership (__main__.CompactPrototypeTests.test_outcome_shares_exact_payload_bytes_without_creating_membership) ... ok
+test_oversized_template_child_refuses_before_decoding_or_accumulating_child_bytes (__main__.CompactPrototypeTests.test_oversized_template_child_refuses_before_decoding_or_accumulating_child_bytes) ... FAIL
+test_payload_bound_and_delta_parent_cycle_refuse (__main__.CompactPrototypeTests.test_payload_bound_and_delta_parent_cycle_refuse) ... ok
+
+======================================================================
+FAIL: test_oversized_template_child_refuses_before_decoding_or_accumulating_child_bytes (__main__.CompactPrototypeTests.test_oversized_template_child_refuses_before_decoding_or_accumulating_child_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT>\artifacts\current-windows-20261019\ordinary-paper-policy-commissioning-20261021\test_compact_fact_prototype.py", line 64, in test_oversized_template_child_refuses_before_decoding_or_accumulating_child_bytes
+    self.assertEqual(read.call_count,0,'Oversized child materialized before enclosing byte budget refusal')
+AssertionError: 1 != 0 : Oversized child materialized before enclosing byte budget refusal
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.037s
+
+FAILED (failures=1)

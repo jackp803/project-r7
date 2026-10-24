@@ -26,6 +26,7 @@ from .runtime import _reject_provider_native_fields
 from ._runtime_validation import _reject_noncanonical
 from .runtime_models import RuntimeConflictError, RuntimeValidationError
 from .paper_state_codec import CODEC as ENCODED_STORAGE_PROFILE,encode_state,decode_state_record,extend_state_record,verify_write_state
+from .paper_state_codec import _decode_state_record_window
 from .paper_process_prefix import PublishedPrefixes
 from .paper_history_audit import PaperHistoryAudit
 
@@ -140,7 +141,7 @@ def read_paper_checkpoint(connection,run_id,revision=None):
     return result
 
 
-def _read_paper_checkpoint_record(connection,run_id,revision=None,*,previous_record=None):
+def _read_paper_checkpoint_record(connection,run_id,revision=None,*,previous_record=None,_retained_records=None):
     """E6-private source reader; previous_record only from its own epoch cache."""
     _text(run_id)
     if revision is not None and (type(revision) is not int or revision<0):_invalid('Explicit checkpoint revision required')
@@ -149,7 +150,7 @@ def _read_paper_checkpoint_record(connection,run_id,revision=None,*,previous_rec
     else:
         row=connection.execute('SELECT * FROM paper_process_checkpoints WHERE run_id=? AND revision=?',(run_id,revision)).fetchone()
     if row is None:_invalid('Paper checkpoint missing')
-    result=dict(row);record=None
+    result=dict(row);record=None;retained=()
     if _storage_profile(connection,run_id)==ENCODED_STORAGE_PROFILE:
         def previous(at):
             parent=connection.execute('SELECT state_json,state_hash FROM paper_process_checkpoints WHERE run_id=? AND revision=?',(run_id,at)).fetchone()
@@ -157,14 +158,26 @@ def _read_paper_checkpoint_record(connection,run_id,revision=None,*,previous_rec
             return parent['state_json'],parent['state_hash']
         try:
             if previous_record is None:
-                record=decode_state_record(row['state_json'],run_id=run_id,revision=row['revision'],
-                    expected_hash=row['state_hash'],read_previous=previous)
+                if _retained_records is None:
+                    record=decode_state_record(row['state_json'],run_id=run_id,revision=row['revision'],
+                        expected_hash=row['state_hash'],read_previous=previous)
+                else:
+                    record,retained=_decode_state_record_window(row['state_json'],run_id=run_id,revision=row['revision'],
+                        expected_hash=row['state_hash'],read_previous=previous)
             else:
                 record=extend_state_record(row['state_json'],run_id=run_id,revision=row['revision'],
                     expected_hash=row['state_hash'],previous=previous_record)
             result['state_json']=record.state_json
         except ValueError:_invalid('Stored Paper physical state corrupt')
     _read_json(result['state_json'],result['state_hash'])
+    if _retained_records is not None:
+        for predecessor in retained:
+            # Optional reuse never adds a new history requirement to the caller.
+            # An invalid optional state is skipped; a later requested read still
+            # fails through the original complete reader.
+            try:_read_json(predecessor.state_json,predecessor.state_hash)
+            except RuntimeValidationError:continue
+            _retained_records.append(predecessor)
     return result,record
 
 
@@ -277,14 +290,29 @@ class PaperProcessJournal:
         if cached is not None:
             self._checkpoint_cache.move_to_end(key);return dict(cached[0])
         previous=self._checkpoint_cache.get((run_id,revision-1))
+        retained=[]
         row,record=_read_paper_checkpoint_record(self._db,run_id,revision,
-            previous_record=None if previous is None else previous[2])
-        size=sum(len(value.encode('utf-8')) for value in row.values() if type(value) is str)
-        if self._history._epoch()==epoch and size<=_CHECKPOINT_CACHE_MAX_BYTES:
-            while self._checkpoint_cache and (len(self._checkpoint_cache)>=_CHECKPOINT_CACHE_MAX_ROWS or
-                    self._checkpoint_cache_bytes+size>_CHECKPOINT_CACHE_MAX_BYTES):
-                _,removed=self._checkpoint_cache.popitem(last=False);self._checkpoint_cache_bytes-=removed[1]
-            self._checkpoint_cache[key]=(dict(row),size,record);self._checkpoint_cache_bytes+=size
+            previous_record=None if previous is None else previous[2],_retained_records=retained)
+        candidates=[]
+        for predecessor in retained:
+            original=self._db.execute('SELECT * FROM paper_process_checkpoints WHERE run_id=? AND revision=?',
+                (run_id,predecessor.revision)).fetchone()
+            if (original is None or original['run_id']!=predecessor.run_id
+                    or original['revision']!=predecessor.revision or original['state_hash']!=predecessor.state_hash):continue
+            logical=dict(original);logical['state_json']=predecessor.state_json
+            candidates.append((logical,predecessor))
+        candidates.append((row,record))
+        if self._history._epoch()==epoch:
+            for logical,verified in candidates:
+                size=sum(len(value.encode('utf-8')) for value in logical.values() if type(value) is str)
+                if size>_CHECKPOINT_CACHE_MAX_BYTES:continue
+                cache_key=(run_id,logical['revision'])
+                old=self._checkpoint_cache.pop(cache_key,None)
+                if old is not None:self._checkpoint_cache_bytes-=old[1]
+                while self._checkpoint_cache and (len(self._checkpoint_cache)>=_CHECKPOINT_CACHE_MAX_ROWS or
+                        self._checkpoint_cache_bytes+size>_CHECKPOINT_CACHE_MAX_BYTES):
+                    _,removed=self._checkpoint_cache.popitem(last=False);self._checkpoint_cache_bytes-=removed[1]
+                self._checkpoint_cache[cache_key]=(dict(logical),size,verified);self._checkpoint_cache_bytes+=size
         return row
 
     def _encode_checkpoint(self,raw,*,run_id,revision,previous_raw=None):

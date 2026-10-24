@@ -3,6 +3,7 @@ import hashlib
 import unittest
 from unittest.mock import patch
 import inspect
+import json
 
 from storage import paper_process as process
 from storage import paper_state_codec as codec
@@ -96,6 +97,63 @@ class PaperCheckpointCacheTests(unittest.TestCase):
             self.assertGreater(unpack.call_count,1)
         self.assertIs(type(current),dict)
         self.assertEqual(set(current),{'run_id','revision','operation_id','state_json','state_hash','recorded_at'})
+
+    def test_fresh_current_reuses_predecessors_already_reconstructed_from_actual_source(self):
+        with process.open_paper_process_journal(self.helper.path) as reader:
+            with patch.object(codec,'_unpack',wraps=codec._unpack) as unpack:
+                current=reader.recover_current('run-1')
+            revisions=[call.args[2] for call in unpack.call_args_list]
+            self.assertEqual(current.revision,3)
+            for revision in (1,2,3):
+                self.assertEqual(revisions.count(revision),1,'Already reconstructed predecessor decoded again')
+            self.assertFalse(reader.history_audit_ready('run-1'))
+
+    def test_applied_tail_reuses_two_predecessors_without_history_permission(self):
+        state=json.loads(self.journal._checkpoint('run-1',3)['state_json']);state['runtime']['clock']=4
+        self.journal.prepare('run-1','tick-4',{},expected_revision=3,now=NOW)
+        self.journal.complete('run-1','tick-4',state,{},now=NOW)
+        with process.open_paper_process_journal(self.helper.path) as reader:
+            with patch.object(codec,'_unpack',wraps=codec._unpack) as unpack:
+                current=reader.recover_current('run-1')
+            revisions=[call.args[2] for call in unpack.call_args_list]
+            self.assertEqual(current.status,'PUBLICATION_PENDING')
+            for revision in (1,2,3,4):self.assertEqual(revisions.count(revision),1)
+            self.assertFalse(reader.history_audit_ready('run-1'))
+
+    def test_retained_predecessors_keep_individual_metadata_bounds_and_eviction(self):
+        with process.open_paper_process_journal(self.helper.path) as reader:
+            reader._checkpoint('run-1',3)
+            self.assertEqual(set(reader._checkpoint_cache),{('run-1',1),('run-1',2),('run-1',3)})
+            for (run,revision),(row,size,record) in reader._checkpoint_cache.items():
+                self.assertEqual(row,process.read_paper_checkpoint(reader._db,run,revision))
+                self.assertEqual((record.revision,record.state_hash),(revision,row['state_hash']))
+                self.assertEqual(record.chain_links,revision+1)
+                self.assertGreater(record.chain_payload_bytes,0)
+                self.assertEqual(size,sum(len(value.encode('utf-8')) for value in row.values() if type(value) is str))
+            size=reader._checkpoint_cache[('run-1',3)][1]
+        with process.open_paper_process_journal(self.helper.path) as reader:
+            with patch.object(process,'_CHECKPOINT_CACHE_MAX_BYTES',size):reader._checkpoint('run-1',3)
+            self.assertLessEqual(reader._checkpoint_cache_bytes,size)
+            self.assertEqual(list(reader._checkpoint_cache),[('run-1',3)])
+
+    def test_optional_invalid_historical_payload_is_not_cached_or_a_new_current_gate(self):
+        db=self.journal._db
+        originals=[process.read_paper_checkpoint(db,'run-1',rev) for rev in range(4)]
+        altered=json.loads(originals[1]['state_json']);altered['runtime']['credentials']='forbidden'
+        raw=json.dumps(altered,sort_keys=True,separators=(',',':'),ensure_ascii=False)
+        trigger=db.execute("SELECT sql FROM sqlite_master WHERE name='paper_process_checkpoints_no_update'").fetchone()[0]
+        db.execute('DROP TRIGGER paper_process_checkpoints_no_update')
+        previous=originals[0]['state_json']
+        for rev in range(1,4):
+            current=raw if rev==1 else originals[rev]['state_json']
+            encoded=codec.encode_state(current,run_id='run-1',revision=rev,previous_raw=previous)
+            db.execute('UPDATE paper_process_checkpoints SET state_json=?,state_hash=? WHERE run_id=? AND revision=?',
+                (encoded,process._digest(current),'run-1',rev));previous=current
+        db.execute(trigger)
+        with process.open_paper_process_journal(self.helper.path) as reader:
+            self.assertEqual(reader._checkpoint('run-1',3)['state_json'],originals[3]['state_json'])
+            self.assertNotIn(('run-1',1),reader._checkpoint_cache)
+            with self.assertRaises(RuntimePersistenceError):reader._checkpoint('run-1',1)
 
 
 if __name__=='__main__':unittest.main()

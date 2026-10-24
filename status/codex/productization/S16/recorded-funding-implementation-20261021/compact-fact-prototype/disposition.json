@@ -1,0 +1,726 @@
+{
+  "status": "CURRENT_COMPACT_CANDIDATE_FINITE_FEASIBILITY_FAILED_NO_PRODUCT_INTEGRATION;INDEPENDENT_SOURCE_FIXES_PASS",
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "branch": "codex/r7-productization-master-20261002",
+  "source_base_revision": "fd10db6aeb77b48d5da1d35b49db8aa582b89f19",
+  "main": "7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812",
+  "source_hashes": {
+    "src/application/platform/runtime_identity.py": "sha256:4d635bbe025fde5d6acb93c79ebcfeb7ea0b134c8b8e19b3cb31b4943ef1a1d2",
+    "src/storage/paper_process.py": "sha256:04084c68274554bb2d3fcfee2363c223583dd2f2d2f3019bf6933bd9b421b805",
+    "src/storage/paper_state_codec.py": "sha256:c6b14cbbdf7513f7d92765ac65dc8b675e2a69bd08c3796a1e1cd9f2c19988be",
+    "tests/application/test_runtime_identity_read.py": "sha256:22d386fcf8bee2c6bff4982588aec38acfdea35de7de7fcbf94cfd98ee2a90dc",
+    "tests/storage/test_paper_checkpoint_cache.py": "sha256:83e4053bab277eb01a8d0b1ac02c66738f8be1174c627512e3433d093aaf1824",
+    "tests/storage/test_paper_state_codec.py": "sha256:4bf7235aa159f6d9d755f5b5f81912ebd1db79f4d890dafae0267d7edef2d746"
+  },
+  "retained": [
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/checkpoint-retained-window-encoded-funding.log",
+      "sha256": "sha256:5556234037957b5063199dd75d684bfcf56ed5809c610084afac56fe9030482a",
+      "original_sha256": "sha256:9dd217054b3d9d50c4c39a9239ace94410d6121ec275860e5e33d350173663e6",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/checkpoint-retained-window-encoded-funding.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/checkpoint-retained-window-green.log",
+      "sha256": "sha256:99d7aa25f5d87ea95cfdd8ec1c89b0663657130c4ad6fc23ea86ced9bdcdfa4c",
+      "original_sha256": "sha256:25e6dc3b20ec4f2b7240f936f5eb0c8d570d876b104f84abb3439d68ac8bc8c5",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/checkpoint-retained-window-green.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/checkpoint-retained-window-identity-worker.log",
+      "sha256": "sha256:22f44d6ec039c4b6e8aa4265c450ac83d1f15eaae16d4103a5e93e3f8ca89753",
+      "original_sha256": "sha256:5e794fdde0ed510d57556b3e8f752de894a14a1b81036b2fe55a7606a3893e2b",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/checkpoint-retained-window-identity-worker.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/checkpoint-retained-window-legacy-runtime.log",
+      "sha256": "sha256:dfbd45ba672d2e0e763b6c7844dd13b768457765c22d83825474080194687063",
+      "original_sha256": "sha256:f2b67b61c7b87902441fb41a40237cf75251338aaaf95d93f11ecf6d12a8db85",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/checkpoint-retained-window-legacy-runtime.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/checkpoint-retained-window-red.log",
+      "sha256": "sha256:16e99c0c07d36848349a0f9b1f6d94d1f750e34b28b6a6d6738ba8d8d38237cc",
+      "original_sha256": "sha256:9865ad848c5282a0ed2c35171449a96ac1bf0f1e95440df6e1468b3bde658d91",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/checkpoint-retained-window-red.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/checkpoint-retained-window-runtime-final.log",
+      "sha256": "sha256:15045d511cb4f583a01c9d2b2861ccebc80533a7f431f4cb6676349c1b14a8b2",
+      "original_sha256": "sha256:b1822b6dd5bdc32c66b5add83951e5e95eb91f993fbad8231df99b2bb1562a42",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/checkpoint-retained-window-runtime-final.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/checkpoint-retained-window-storage-final.log",
+      "sha256": "sha256:0a7d70d9890e9500cea1c3dea7f47f020778bd496b67359a1b287cb9e8727da0",
+      "original_sha256": "sha256:04a134a1a1df85af8d6bb53d1a724ea9268ede34af1aad9172b8d2bd03f2b63f",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/checkpoint-retained-window-storage-final.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/checkpoint-retained-window-storage-green.log",
+      "sha256": "sha256:8bc1c038c587a4d2b119060e754b6d7befc9dd3ff9a7bdad77205d64bba1eba4",
+      "original_sha256": "sha256:482c6675a5befa1fe6fcf2a1f6412b04cd52a4a388f9ba3cf250334c79ea589c",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/checkpoint-retained-window-storage-green.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-closed90-pair-decomposition.log",
+      "sha256": "sha256:375ed7731dce0082abaef5b33f216a41bbca6cae36b949da6efb9fa2a242f8a8",
+      "original_sha256": "sha256:d719018a79c63b38c5ed493f5cc2ec9f3069c1e801b13c48fa93971f04deada7",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-closed90-pair-decomposition.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-controller-pipe-green.log",
+      "sha256": "sha256:216f766011d6871f0ce6ec13f7ab757a2ef7555da50a922ebd639f435e1b5b40",
+      "original_sha256": "sha256:b35cd25645b5da06045620d171d2a3d4fc6787c9ba946998844513188fd925a3",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-controller-pipe-green.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-fresh-current-recovery-window.log",
+      "sha256": "sha256:41b6197fe931723e1646e6486f35484e67d211c39bfcfb02018da2922e9b1f52",
+      "original_sha256": "sha256:6252f413cbf83314110a3b6bfc6e708994c5b0c31849b5c3210a7e7cbcea730d",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-fresh-current-recovery-window.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-fresh-current-recovery.log",
+      "sha256": "sha256:3971a5176f20235d4698caa86ff1a7280b8d29f57f1febaf9edc8581bc378c10",
+      "original_sha256": "sha256:00f105c4bd3bc7633aba12bbf4d854ebaaf7e17e966749904456dbf0c83162b2",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-fresh-current-recovery.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-ninety-trade-corpus-diag2.log",
+      "sha256": "sha256:ae3c3b6c1ca713ff2b0b049e2dd70840901c78d743953c7572ff876e741f9daf",
+      "original_sha256": "sha256:411424c1356a1d9753aac1fa124d9ca3eef36c1815a3314ead7b1c5d3bbd6203",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-ninety-trade-corpus-diag2.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-ninety-trade-corpus-diag3.log",
+      "sha256": "sha256:4a2a463e1beaa579dea3aa0e19ecea4c7ad9ef51bbfc38eb784b42e9812749c3",
+      "original_sha256": "sha256:58a0020ba9e1e8dc7b12cff0ca1d7e40bfd55264af921b439984c68fc7549a52",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-ninety-trade-corpus-diag3.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-ninety-trade-corpus-diagnostic.log",
+      "sha256": "sha256:6d357dcb446d501a3aaae6fdcee6e676a026331c70b94145e678185055ce2e5a",
+      "original_sha256": "sha256:170cff5ca218720514317df6381a98447616ade35a0186ad8942958d3ae07f04",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-ninety-trade-corpus-diagnostic.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-ninety-trade-corpus-drained.log",
+      "sha256": "sha256:0cec0a3417dc68dcd582f473737290befb65e5413f6685d234e42e9c6bca4e02",
+      "original_sha256": "sha256:68ab07f6578d19cecc7ec2e5c90806d6515d9826a9b208f576a0b93410c20704",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-ninety-trade-corpus-drained.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-ninety-trade-corpus-green.log",
+      "sha256": "sha256:1f822966ac76b925eab49ba165c1527a052d66ec4db50d5a26c53d9e08560aa3",
+      "original_sha256": "sha256:aedb147fc91106125db9a97ff54f8c845cfa10f5a63a5e5f0c76c7944ee35209",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-ninety-trade-corpus-green.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-ninety-trade-corpus.log",
+      "sha256": "sha256:98835a0ca8d2a47a19fbfa3d5abca774df2c5a3ecf262f23547272a18c7683ab",
+      "original_sha256": "sha256:5ac526fdc48b7ffa1eceb3e6cce77484b07b599538be74121728d44c4aef41ad",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-ninety-trade-corpus.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-prototype-B-v2.log",
+      "sha256": "sha256:623df88d78bdf78a9d56e063657fb0758047342d5febab7901ed4aadc58f5f71",
+      "original_sha256": "sha256:305aa2de4df44113073d0874361038dd03866f60e4389786349b6d27555761df",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-prototype-B-v2.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-prototype-B-v3.log",
+      "sha256": "sha256:f270a7cbc6cf5d01905c77491809dfd2212d0f7cc392a51b272a40003dc06d6a",
+      "original_sha256": "sha256:fd5ea78a9b14cd1a3585fdea37d48dc166bd8662e353596ca616ec22c2d8aa65",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-prototype-B-v3.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-prototype-B.log",
+      "sha256": "sha256:2d2f5cab3c509dd1e46e15dcfd1d7169b30cdc4899e15012b0018250a6df47da",
+      "original_sha256": "sha256:652a193e127b07a95b444d9d2ac8bff78e78a1b3ab9b1e759d5657991d095ae5",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-prototype-B.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-prototype-C-v3.log",
+      "sha256": "sha256:2b8dcfad33f7fb61c7da466ed2bd1ed05abcd420f754778e154ea5ace627387e",
+      "original_sha256": "sha256:48e49015fb63c5aba6bc5f696f398bd007ebbaf3c922a8a8cfe09c18fc89b574",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-prototype-C-v3.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-prototype-D-closed90-after.log",
+      "sha256": "sha256:ecd959331dd1fd381454520258e729a1882df85b20cc7dd4e71d48cde15d56d3",
+      "original_sha256": "sha256:42a31d200096f6d1d3e5445200b6a81fdb5f34eefd0b5abaef9e6820a082ed88",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-prototype-D-closed90-after.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-prototype-D-closed90-before.log",
+      "sha256": "sha256:afe02991ac915ecf7ee19d196f7c3b3a20e2012eacd0c9bf4ad5b91a2cc5cc08",
+      "original_sha256": "sha256:abe19fede57f0ccf4b07cb0f62aa23fc36b3e1e7ba633523adf40df6cbd95032",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-prototype-D-closed90-before.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-prototype-D-v1.log",
+      "sha256": "sha256:21a4ff719080c301253a4dd33b554006c1c2b68f3eb4be830d08d80b010b6f9e",
+      "original_sha256": "sha256:2d7e83469fc3f2bc1cdbc8d0d7996740d194829262fc7bd71778a39b06a3ec55",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-prototype-D-v1.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-prototype-D-v2.log",
+      "sha256": "sha256:edc0b8dfcd851556afe14a7cfff252b817032253345f154f5b7f974af714913b",
+      "original_sha256": "sha256:6af234203e71a88e7249b4279575f360c7448efb3eabe7d363a28a3116a9425c",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-prototype-D-v2.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-prototype-decomposition.log",
+      "sha256": "sha256:bf706def180dd3a12fc8ded04f298357d708b63cd4dfbe6c4f709a66ad8bb98b",
+      "original_sha256": "sha256:e252cbef3fca86d673b7a0f3da70a80dd4e96e04b4967bd99088eedaeebe1045",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-prototype-decomposition.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-prototype-final-unit-green.log",
+      "sha256": "sha256:4134e932fb4731320702db223fae82bb2ec9691a715bf15f89bc32da23a4d787",
+      "original_sha256": "sha256:7deb299a557b98281613de6372ed8a3d735c9c8ca0744ffd458a7e277a353878",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-prototype-final-unit-green.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-prototype-first-green.log",
+      "sha256": "sha256:09b606c1d16d183a589de0ff8045aff601e2d529772daf7a76c4144964756d7a",
+      "original_sha256": "sha256:f6bbedc169e4ff429e2377095293dc7cdb6985cb21c6aae1f39ef450868ab1e2",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-prototype-first-green.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-prototype-red.log",
+      "sha256": "sha256:6154a3f5673590402b9eeb63d9f489ace5b6cd969a22d279c540e36e2cb28177",
+      "original_sha256": "sha256:691277faa0220eef272850b3464de658d9f9b9a99fe72ea764f14ddee7aba53e",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-prototype-red.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-prototype-template-bound-red.log",
+      "sha256": "sha256:325fb21173cd484dabe369e3190a95824820fc9863eeab1e4f76de0e6651c908",
+      "original_sha256": "sha256:64ec0fa8cd238f4f73137c94c1ea5466c1d18ab5961b08acfa7bbcf3f210e142",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-prototype-template-bound-red.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/compact-trade-corpus.log",
+      "sha256": "sha256:6e493c995224f6bf27a85d5dc9517979dac4f88e68ee248116eaf384918111eb",
+      "original_sha256": "sha256:d0f8e2fceb43fe1c5229c8d1445c103974b4bd68aef565d06b106fe5d3f3ad70",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-trade-corpus.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/compact_fact_prototype.py",
+      "sha256": "sha256:2dc07cd8c9405e476acff3bd02a5687abaa654faadca17c7e0f9ccffc6361124",
+      "original_sha256": "sha256:2dc07cd8c9405e476acff3bd02a5687abaa654faadca17c7e0f9ccffc6361124",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact_fact_prototype.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/compact_fact_prototype_BC_measured.py",
+      "sha256": "sha256:ce8b37c6fc3e2c0594e27b21deb1a8a89e07dda6cebbb401031f2f58f748a5cc",
+      "original_sha256": "sha256:ce8b37c6fc3e2c0594e27b21deb1a8a89e07dda6cebbb401031f2f58f748a5cc",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact_fact_prototype_BC_measured.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/compact_fact_prototype_D_measured.py",
+      "sha256": "sha256:517a89609b84ebaa3a0e54f9a6d91490cfce595ed0c54614a1cd92ab91e94061",
+      "original_sha256": "sha256:517a89609b84ebaa3a0e54f9a6d91490cfce595ed0c54614a1cd92ab91e94061",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact_fact_prototype_D_measured.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/compact_fact_prototype_v1.py",
+      "sha256": "sha256:9258f8cc8a8782c653825e7b198ae86c57850b92ec4ee43dcdea76fbbdda921f",
+      "original_sha256": "sha256:9258f8cc8a8782c653825e7b198ae86c57850b92ec4ee43dcdea76fbbdda921f",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact_fact_prototype_v1.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/compact_fact_prototype_v2.py",
+      "sha256": "sha256:12fb5c390b3484f57c65ec4e17caaca54cc7c64cf7091463ea6aa9e406dc758f",
+      "original_sha256": "sha256:12fb5c390b3484f57c65ec4e17caaca54cc7c64cf7091463ea6aa9e406dc758f",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact_fact_prototype_v2.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/decompose_closed90_pair.py",
+      "sha256": "sha256:f475dda78028d1256f7439e20e73b1bc7fc862393ec98e3f167b68dc58133137",
+      "original_sha256": "sha256:f475dda78028d1256f7439e20e73b1bc7fc862393ec98e3f167b68dc58133137",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/decompose_closed90_pair.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/decompose_compact_prototype.py",
+      "sha256": "sha256:0f95531242ed269a564f5241d43c7224a7c3f966a9ed3147309dfefa7f78940b",
+      "original_sha256": "sha256:0f95531242ed269a564f5241d43c7224a7c3f966a9ed3147309dfefa7f78940b",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/decompose_compact_prototype.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/measure_fresh_current_recovery.py",
+      "sha256": "sha256:64c0f62db3b5409a3184b63a3866690c4034c6be5daea9430a7071389ebe6b66",
+      "original_sha256": "sha256:64c0f62db3b5409a3184b63a3866690c4034c6be5daea9430a7071389ebe6b66",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/measure_fresh_current_recovery.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/measure_fresh_current_recovery_window.py",
+      "sha256": "sha256:0d4010cad8556ed44c3a1d5afe578473b9bc811170428f13e8a246cf80da29ac",
+      "original_sha256": "sha256:0d4010cad8556ed44c3a1d5afe578473b9bc811170428f13e8a246cf80da29ac",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/measure_fresh_current_recovery_window.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/produce_compact_trade_corpus.py",
+      "sha256": "sha256:f7522702e29ae4f3e17f214c15616858442b157612a15d952c4dba02669e22e6",
+      "original_sha256": "sha256:f7522702e29ae4f3e17f214c15616858442b157612a15d952c4dba02669e22e6",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/produce_compact_trade_corpus.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/produce_compact_trade_corpus_90.py",
+      "sha256": "sha256:7d1d765079c02baa1409224dd228563ab215df0c424dbbe42ab9a216cd0a29f7",
+      "original_sha256": "sha256:7d1d765079c02baa1409224dd228563ab215df0c424dbbe42ab9a216cd0a29f7",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/produce_compact_trade_corpus_90.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/produce_compact_trade_corpus_90_diag2.py",
+      "sha256": "sha256:41645d4b8e79e5f1438a3168b632f47bd555d05bdd6847adbdd666f306b7a429",
+      "original_sha256": "sha256:41645d4b8e79e5f1438a3168b632f47bd555d05bdd6847adbdd666f306b7a429",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/produce_compact_trade_corpus_90_diag2.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/produce_compact_trade_corpus_90_diag3.py",
+      "sha256": "sha256:0208ff4acc1c383d0768070a68406e1970151b49ee3f0b00a243bfecbf113db8",
+      "original_sha256": "sha256:0208ff4acc1c383d0768070a68406e1970151b49ee3f0b00a243bfecbf113db8",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/produce_compact_trade_corpus_90_diag3.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/produce_compact_trade_corpus_90_diagnostic.py",
+      "sha256": "sha256:bc4c05d7c08da80f0ff04382583b8a641df4fb81fecbbb002a504187323b5023",
+      "original_sha256": "sha256:bc4c05d7c08da80f0ff04382583b8a641df4fb81fecbbb002a504187323b5023",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/produce_compact_trade_corpus_90_diagnostic.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/produce_compact_trade_corpus_90_drained.py",
+      "sha256": "sha256:7fa485ddea97446f779add788450beecc10779dd5a8441100647b04b1ad26362",
+      "original_sha256": "sha256:7fa485ddea97446f779add788450beecc10779dd5a8441100647b04b1ad26362",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/produce_compact_trade_corpus_90_drained.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/produce_compact_trade_corpus_90_green.py",
+      "sha256": "sha256:c9c2b3306334b61e1ca5d82cc92a868884ad9327895088805a96f3caade6f3ef",
+      "original_sha256": "sha256:c9c2b3306334b61e1ca5d82cc92a868884ad9327895088805a96f3caade6f3ef",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/produce_compact_trade_corpus_90_green.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/run_checkpoint_regression_group.py",
+      "sha256": "sha256:7e53a3a6f0c15bbd73f1a74b703dc7f2a2e10fd086deb1cb4cb74a906e579d86",
+      "original_sha256": "sha256:7e53a3a6f0c15bbd73f1a74b703dc7f2a2e10fd086deb1cb4cb74a906e579d86",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/run_checkpoint_regression_group.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/run_closed90_format_probe.py",
+      "sha256": "sha256:9db79fbb7b8c659faee237f2f8e38c7df3d505f6ea2df2fb1a06d3d9023e4252",
+      "original_sha256": "sha256:9db79fbb7b8c659faee237f2f8e38c7df3d505f6ea2df2fb1a06d3d9023e4252",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/run_closed90_format_probe.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/run_compact_prototype_job.py",
+      "sha256": "sha256:efb166448ad0c8514a7bcebdfd676e4496a0b3c401e0fe7ac720833ec1f2d7ce",
+      "original_sha256": "sha256:efb166448ad0c8514a7bcebdfd676e4496a0b3c401e0fe7ac720833ec1f2d7ce",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/run_compact_prototype_job.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/run_compact_trade_corpus.py",
+      "sha256": "sha256:8e0693db61c3d93f55d572948972edb97fd6ed6ead5b1f801150a013eced3776",
+      "original_sha256": "sha256:8e0693db61c3d93f55d572948972edb97fd6ed6ead5b1f801150a013eced3776",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/run_compact_trade_corpus.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/run_compact_trade_corpus_90.py",
+      "sha256": "sha256:a93129a64acd0b6d7b35fdf365f053360f9101e006122a05b4efc5886f64dbcb",
+      "original_sha256": "sha256:a93129a64acd0b6d7b35fdf365f053360f9101e006122a05b4efc5886f64dbcb",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/run_compact_trade_corpus_90.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/run_compact_trade_corpus_90_diag2.py",
+      "sha256": "sha256:2515d153da940da5824b68ede5b2f2cf7e08453614e72454baeb352d2f85002f",
+      "original_sha256": "sha256:2515d153da940da5824b68ede5b2f2cf7e08453614e72454baeb352d2f85002f",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/run_compact_trade_corpus_90_diag2.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/run_compact_trade_corpus_90_diag3.py",
+      "sha256": "sha256:d0de45095dbd72f6fd295e50a8bc4c780cc1ddafb172f4d78537d140fcb6c61b",
+      "original_sha256": "sha256:d0de45095dbd72f6fd295e50a8bc4c780cc1ddafb172f4d78537d140fcb6c61b",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/run_compact_trade_corpus_90_diag3.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/run_compact_trade_corpus_90_diagnostic.py",
+      "sha256": "sha256:474f51aa5f5c35b878fbe6b169f9eb09b97a8871444b067d07a9fafd8ea5029e",
+      "original_sha256": "sha256:474f51aa5f5c35b878fbe6b169f9eb09b97a8871444b067d07a9fafd8ea5029e",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/run_compact_trade_corpus_90_diagnostic.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/run_compact_trade_corpus_90_green.py",
+      "sha256": "sha256:c2edd28321c5f51c7b8241a3b533d72222c780c52dc148bfef6bbe0ba011fc1b",
+      "original_sha256": "sha256:c2edd28321c5f51c7b8241a3b533d72222c780c52dc148bfef6bbe0ba011fc1b",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/run_compact_trade_corpus_90_green.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/run_compact_trade_corpus_drained.py",
+      "sha256": "sha256:0713b070114b10364c7302be75ce17c59b7b73ed16e58396c5d86f4d96ed8b80",
+      "original_sha256": "sha256:0713b070114b10364c7302be75ce17c59b7b73ed16e58396c5d86f4d96ed8b80",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/run_compact_trade_corpus_drained.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/run_decompose_closed90_pair.py",
+      "sha256": "sha256:702fb260173f86954249a479777011f48f82d926cda86f46dee49368abaeebf3",
+      "original_sha256": "sha256:702fb260173f86954249a479777011f48f82d926cda86f46dee49368abaeebf3",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/run_decompose_closed90_pair.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/run_fresh_current_recovery.py",
+      "sha256": "sha256:00e75e18c844d30a6e7a26e0cf513d269267c0e3e64ca64b0a6c9f05d944e136",
+      "original_sha256": "sha256:00e75e18c844d30a6e7a26e0cf513d269267c0e3e64ca64b0a6c9f05d944e136",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/run_fresh_current_recovery.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/run_fresh_current_recovery_window.py",
+      "sha256": "sha256:e5b221e8e17c668033ebcd34ca98fe74764fffea90c6429353eb4a71a9ea1eff",
+      "original_sha256": "sha256:e5b221e8e17c668033ebcd34ca98fe74764fffea90c6429353eb4a71a9ea1eff",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/run_fresh_current_recovery_window.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/runtime-identity-heartbeat-race-green.log",
+      "sha256": "sha256:db87e8d85267e2b4e53db5a3b9fafb8396ce7a7d70d7fe4fcfa6ca7f30379515",
+      "original_sha256": "sha256:c4f123420cf059de83188a63f75524723dcb60b8bc8cb20c27135d1cb6f00071",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/runtime-identity-heartbeat-race-green.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/logs/runtime-identity-heartbeat-race-red.log",
+      "sha256": "sha256:6fea1e1e06ba55aeb51bb3d26c6cb065acbbc501f62885a8633c61a84424884b",
+      "original_sha256": "sha256:9a51fe6d2b0cc668daef41146f7208316c5ebe1a2f1819b990e3f5dd411f5af7",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/runtime-identity-heartbeat-race-red.log",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/drivers/test_compact_fact_prototype.py",
+      "sha256": "sha256:4af5927c9432e24ce4b4fcfcc5560037b049ee188c62e8e6622f143f98b4fe17",
+      "original_sha256": "sha256:4af5927c9432e24ce4b4fcfcc5560037b049ee188c62e8e6622f143f98b4fe17",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/test_compact_fact_prototype.py",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_AND_USER_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/results/compact-closed90-pair-decomposition-20261024.json",
+      "sha256": "sha256:bf55cfeafe9d11b0913d1d0e2f45c97399356ab11aa8906380bc116ac9f817f9",
+      "original_sha256": "sha256:bf55cfeafe9d11b0913d1d0e2f45c97399356ab11aa8906380bc116ac9f817f9",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-closed90-pair-decomposition-20261024/result.json",
+      "qualification": "FINITE_DIAGNOSTIC_ONLY"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/results/compact-facts-D-closed90-after-20261024.json",
+      "sha256": "sha256:8d214180abeadbbff7da4db4c3804a8868499d012151297c9465c23d1975060e",
+      "original_sha256": "sha256:8d214180abeadbbff7da4db4c3804a8868499d012151297c9465c23d1975060e",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-facts-D-closed90-after-20261024/result.json",
+      "qualification": "FINITE_DIAGNOSTIC_ONLY"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/results/compact-facts-D-closed90-before-20261024.json",
+      "sha256": "sha256:f195c4a491a957a6304336c024a119aebcb35dd370e1acbe4863ef9cd71a8a81",
+      "original_sha256": "sha256:f195c4a491a957a6304336c024a119aebcb35dd370e1acbe4863ef9cd71a8a81",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-facts-D-closed90-before-20261024/result.json",
+      "qualification": "FINITE_DIAGNOSTIC_ONLY"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/results/compact-facts-prototype-B-v3-20261024.json",
+      "sha256": "sha256:4c12c42323cf2006cbb12edd7ff7567a4268f8cb3570c979ae3d6c81dc1102ea",
+      "original_sha256": "sha256:4c12c42323cf2006cbb12edd7ff7567a4268f8cb3570c979ae3d6c81dc1102ea",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-facts-prototype-B-v3-20261024/result.json",
+      "qualification": "FINITE_DIAGNOSTIC_ONLY"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/results/compact-facts-prototype-C-v3-20261024.json",
+      "sha256": "sha256:9399cedd618a54789bc1f41d36fc8e2124c471aaf0af729054877ab2928190dc",
+      "original_sha256": "sha256:9399cedd618a54789bc1f41d36fc8e2124c471aaf0af729054877ab2928190dc",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-facts-prototype-C-v3-20261024/result.json",
+      "qualification": "FINITE_DIAGNOSTIC_ONLY"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/results/compact-facts-prototype-D-v1-20261024.json",
+      "sha256": "sha256:cae9837409d165751428b1d10791b4be7b311f6f968e0cf3a0520371da6acc46",
+      "original_sha256": "sha256:cae9837409d165751428b1d10791b4be7b311f6f968e0cf3a0520371da6acc46",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-facts-prototype-D-v1-20261024/result.json",
+      "qualification": "FINITE_DIAGNOSTIC_ONLY"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/results/compact-facts-prototype-D-v2-20261024.json",
+      "sha256": "sha256:3a41a168cf13273fe01fe885a669d148e2cfe1bb615c929df33a46c82ad7a4ed",
+      "original_sha256": "sha256:3a41a168cf13273fe01fe885a669d148e2cfe1bb615c929df33a46c82ad7a4ed",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-facts-prototype-D-v2-20261024/result.json",
+      "qualification": "FINITE_DIAGNOSTIC_ONLY"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/results/compact-facts-prototype-decomposition-20261024.json",
+      "sha256": "sha256:f93e094c9a83d5a8a046a313bbeaeeddffa2a4bcfdf9cb6e3f444a2a2d901edf",
+      "original_sha256": "sha256:f93e094c9a83d5a8a046a313bbeaeeddffa2a4bcfdf9cb6e3f444a2a2d901edf",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-facts-prototype-decomposition-20261024/result.json",
+      "qualification": "FINITE_DIAGNOSTIC_ONLY"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/results/compact-fresh-current-recovery-20261024.json",
+      "sha256": "sha256:d442a385c3383044ba8931f83382581474f810477c5a17c3b4aa565a9c8cdb83",
+      "original_sha256": "sha256:d442a385c3383044ba8931f83382581474f810477c5a17c3b4aa565a9c8cdb83",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-fresh-current-recovery-20261024/result.json",
+      "qualification": "FINITE_DIAGNOSTIC_ONLY"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/results/compact-fresh-current-recovery-window-20261024.json",
+      "sha256": "sha256:52dfd3a2ac5ee1d52092140dd054f1a4b122811ed58dc0b6cd921b32caef3b34",
+      "original_sha256": "sha256:52dfd3a2ac5ee1d52092140dd054f1a4b122811ed58dc0b6cd921b32caef3b34",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-fresh-current-recovery-window-20261024/result.json",
+      "qualification": "FINITE_DIAGNOSTIC_ONLY"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/results/compact-ninety-trade-corpus-drained-20261024.json",
+      "sha256": "sha256:0f823afc68718ad99dbe14aefbe59f90a9b8cd43e910bc9fc1891880a837beea",
+      "original_sha256": "sha256:0f823afc68718ad99dbe14aefbe59f90a9b8cd43e910bc9fc1891880a837beea",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-ninety-trade-corpus-drained-20261024/result.json",
+      "qualification": "FINITE_DIAGNOSTIC_ONLY"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/results/compact-ninety-trade-corpus-green-20261024.json",
+      "sha256": "sha256:9b48a91d983e059dfdcc9b2ad827d34967dacb9fbce65317b18cf84691004db2",
+      "original_sha256": "sha256:9b48a91d983e059dfdcc9b2ad827d34967dacb9fbce65317b18cf84691004db2",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-ninety-trade-corpus-green-20261024/result.json",
+      "qualification": "FAILED_EXIT124_BODY_ONLY_NO_PASS"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/compact-fact-prototype/results/compact-trade-corpus-20261024.json",
+      "sha256": "sha256:b715a83796878c6a34f596b00cd3e1d5dfc2773f63816b220c012c6f32c170ab",
+      "original_sha256": "sha256:b715a83796878c6a34f596b00cd3e1d5dfc2773f63816b220c012c6f32c170ab",
+      "original_project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-trade-corpus-20261024/result.json",
+      "qualification": "FINITE_DIAGNOSTIC_ONLY"
+    }
+  ],
+  "snapshots": [
+    {
+      "project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-facts-D-closed90-after-20261024/non-authoritative-format.sqlite",
+      "bytes": 24809472,
+      "sha256": "sha256:606885fbea812806783181e290f49bb803aec08eb636abc6df7cb39bbc724b16",
+      "retained": "LOCAL_ONLY_NO_DATABASE_PUSH",
+      "authority": "NONAUTHORITATIVE_COPY_OR_READONLY_SOURCE_SNAPSHOT"
+    },
+    {
+      "project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-facts-D-closed90-before-20261024/non-authoritative-format.sqlite",
+      "bytes": 24084480,
+      "sha256": "sha256:8ccabf7ea66aff3d5703290277e48c7c503eb99a2ff2547ba27c2184cfbd1c92",
+      "retained": "LOCAL_ONLY_NO_DATABASE_PUSH",
+      "authority": "NONAUTHORITATIVE_COPY_OR_READONLY_SOURCE_SNAPSHOT"
+    },
+    {
+      "project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-facts-prototype-B-20261024/non-authoritative-format.sqlite",
+      "bytes": 28299264,
+      "sha256": "sha256:ee295a8600826d6dab1e9cef324a6acf30971d2f633427b4bb862681af3c56b7",
+      "retained": "LOCAL_ONLY_NO_DATABASE_PUSH",
+      "authority": "NONAUTHORITATIVE_COPY_OR_READONLY_SOURCE_SNAPSHOT"
+    },
+    {
+      "project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-facts-prototype-B-v2-20261024/non-authoritative-format.sqlite",
+      "bytes": 28401664,
+      "sha256": "sha256:89ecaae60a331ff7ba175d2cadfc27d1efdd0dca7ace9f42223bc55d22fe34ba",
+      "retained": "LOCAL_ONLY_NO_DATABASE_PUSH",
+      "authority": "NONAUTHORITATIVE_COPY_OR_READONLY_SOURCE_SNAPSHOT"
+    },
+    {
+      "project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-facts-prototype-B-v3-20261024/non-authoritative-format.sqlite",
+      "bytes": 28901376,
+      "sha256": "sha256:8b072fbc32558c2d26ab2827ffa658954c00ce793e60ed3c3bef60f6cb4a08c1",
+      "retained": "LOCAL_ONLY_NO_DATABASE_PUSH",
+      "authority": "NONAUTHORITATIVE_COPY_OR_READONLY_SOURCE_SNAPSHOT"
+    },
+    {
+      "project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-facts-prototype-C-v3-20261024/non-authoritative-format.sqlite",
+      "bytes": 22900736,
+      "sha256": "sha256:56ff23d3f4f51bb4691f98ceb705277ee3aec5193021acebd0ab70da6b4ebf06",
+      "retained": "LOCAL_ONLY_NO_DATABASE_PUSH",
+      "authority": "NONAUTHORITATIVE_COPY_OR_READONLY_SOURCE_SNAPSHOT"
+    },
+    {
+      "project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-facts-prototype-D-v1-20261024/non-authoritative-format.sqlite",
+      "bytes": 18685952,
+      "sha256": "sha256:4759f07854cb167d68ee5a8cea6a6e8c3702968daafebf24ec500eb3e46177c1",
+      "retained": "LOCAL_ONLY_NO_DATABASE_PUSH",
+      "authority": "NONAUTHORITATIVE_COPY_OR_READONLY_SOURCE_SNAPSHOT"
+    },
+    {
+      "project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-facts-prototype-D-v2-20261024/non-authoritative-format.sqlite",
+      "bytes": 18685952,
+      "sha256": "sha256:4759f07854cb167d68ee5a8cea6a6e8c3702968daafebf24ec500eb3e46177c1",
+      "retained": "LOCAL_ONLY_NO_DATABASE_PUSH",
+      "authority": "NONAUTHORITATIVE_COPY_OR_READONLY_SOURCE_SNAPSHOT"
+    },
+    {
+      "project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-ninety-trade-corpus-drained-20261024/closed90-protected-before-steady.sqlite",
+      "bytes": 33480704,
+      "sha256": "sha256:6905c6ee0b80876e7ec797767217f0200cfb84b4b3c9940c998b3bc7c5532a9a",
+      "retained": "LOCAL_ONLY_NO_DATABASE_PUSH",
+      "authority": "NONAUTHORITATIVE_COPY_OR_READONLY_SOURCE_SNAPSHOT"
+    },
+    {
+      "project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-ninety-trade-corpus-drained-20261024/controlled-source-snapshot.sqlite",
+      "bytes": 35381248,
+      "sha256": "sha256:1a2edd588f8b4d47bd96477926449c889edd73f966d94383192b09268f45cbb3",
+      "retained": "LOCAL_ONLY_NO_DATABASE_PUSH",
+      "authority": "NONAUTHORITATIVE_COPY_OR_READONLY_SOURCE_SNAPSHOT"
+    },
+    {
+      "project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-ninety-trade-corpus-green-20261024/closed90-protected-before-steady.sqlite",
+      "bytes": 33476608,
+      "sha256": "sha256:2ffae1043cc9018839e02decca37f6b4532dd43ef5ff875719f9965ce2705de7",
+      "retained": "LOCAL_ONLY_NO_DATABASE_PUSH",
+      "authority": "NONAUTHORITATIVE_COPY_OR_READONLY_SOURCE_SNAPSHOT"
+    },
+    {
+      "project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-ninety-trade-corpus-green-20261024/controlled-source-snapshot.sqlite",
+      "bytes": 35373056,
+      "sha256": "sha256:e2577bcaf0e0db9726e8908c8abbe1f3cbc8ea234c79085e87544b68e5cbd6eb",
+      "retained": "LOCAL_ONLY_NO_DATABASE_PUSH",
+      "authority": "NONAUTHORITATIVE_COPY_OR_READONLY_SOURCE_SNAPSHOT"
+    },
+    {
+      "project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/compact-trade-corpus-20261024/controlled-source-snapshot.sqlite",
+      "bytes": 6787072,
+      "sha256": "sha256:8d2d2a70c64263ff41118d2378da709df371944e661206fff5de8977a0585322",
+      "retained": "LOCAL_ONLY_NO_DATABASE_PUSH",
+      "authority": "NONAUTHORITATIVE_COPY_OR_READONLY_SOURCE_SNAPSHOT"
+    },
+    {
+      "project_path": "artifacts/current-windows-20261019/ordinary-paper-policy-commissioning-20261021/e6-3600second-growth-v2-20261024/controlled-source-snapshot.sqlite",
+      "bytes": 47874048,
+      "sha256": "sha256:35e7538884bd6f7f56a990b0f7b6d0f8c0aa29ae578e11853d7f537428ad23b9",
+      "retained": "LOCAL_ONLY_NO_DATABASE_PUSH",
+      "authority": "NONAUTHORITATIVE_COPY_OR_READONLY_SOURCE_SNAPSHOT"
+    }
+  ],
+  "independent_contract_review": "E6_E7_CONTRACT_REVIEW.md;READONLY_TECHNICAL_NOT_E7_AUTHORITY_SIGNATURE",
+  "prototype_tests_passed": 7,
+  "storage_tests_passed": 335,
+  "runtime_group_summary": {
+    "identity-worker": [
+      "----------------------------------------------------------------------",
+      "Ran 84 tests in 124.474s",
+      "",
+      "OK",
+      "{\"controller_status\": \"REAPED\", \"group\": \"identity-worker\", \"exit_code\": 0, \"wall_seconds\": 125.85999999998603}"
+    ],
+    "encoded-funding": [
+      "----------------------------------------------------------------------",
+      "Ran 34 tests in 141.433s",
+      "",
+      "OK",
+      "{\"controller_status\": \"REAPED\", \"group\": \"encoded-funding\", \"exit_code\": 0, \"wall_seconds\": 142.3279999999795}"
+    ],
+    "legacy-runtime": [
+      "----------------------------------------------------------------------",
+      "Ran 28 tests in 71.244s",
+      "",
+      "OK",
+      "{\"controller_status\": \"REAPED\", \"group\": \"legacy-runtime\", \"exit_code\": 0, \"wall_seconds\": 71.73499999998603}"
+    ]
+  },
+  "failed_combined_regression_batch": "MANUALLY_STOPPED_APPROX317S;NO_PASS_OR300S_BUDGET_CREDIT;REPLACED_BY_STRICT_BOUNDED_GROUPS;NO_EVIDENCE_RESET",
+  "source_fixes": [
+    "DEFAULT_OBSERVATION_CLOCK_AFTER_COHERENT_HEARTBEAT_READ",
+    "SAME_EPOCH_BOUNDED_TWO_PREDECESSOR_DATA_REUSE"
+  ],
+  "compact_product_schema": "NOT_INTEGRATED",
+  "segmented_history_permission": "NOT_IMPLEMENTED",
+  "actual_30day_operations": "NOT_RUN",
+  "capacity": "CURRENT_D_CANDIDATE_NO_GO;NOT_PROOF_ALL_LOSSLESS_FORMATS_IMPOSSIBLE",
+  "mature_pair": {
+    "operations": 154,
+    "without_experiment_unique_growth": 700416,
+    "generous_extra_ordinal_credit": 9234,
+    "optimistic_linear_increment_plus_measured_archive_bytes": 17582409596,
+    "backup_limit_bytes": 17179869184,
+    "scope": "FINITE_PROJECTION_NOT_ACTUAL30DAY;OMITS_STATIC_FUTURE_GROWTH_MULTIFRAME_BACKUP_FAVORABLY"
+  },
+  "fresh_current_facts": {
+    "source_sha256": "sha256:1a2edd588f8b4d47bd96477926449c889edd73f966d94383192b09268f45cbb3",
+    "before_wall_seconds": 1.6612241,
+    "after_wall_seconds": 0.9932108,
+    "os_cache": "UNCONTROLLED",
+    "history_permission": false,
+    "native": "NOT_QUALIFIED"
+  },
+  "native": "NEW_EXACT_BUILD_AND_QUALIFICATION_NOT_RUN;OLD_BFFC_RECEIPT_NOT_TRANSFERRED",
+  "ordinary_observation": "NOT_STARTED",
+  "new_actual_public_requests": 0,
+  "cumulative_public_requests": 20,
+  "cumulative_public_responses": 19,
+  "private_requests": 0,
+  "provider_mutation": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "live": "NOT_STARTED",
+  "github_compute": "NOT_USED",
+  "external": [
+    "OLD_PC",
+    "UBUNTU",
+    "REAL_CLOUD",
+    "REAL48H30D_AND_TRADES"
+  ],
+  "master": "IN_PROGRESS",
+  "next": "Report failed current finite gate and concrete unvalidated shared-subtree alternative; no production hard-integration or bound increase. Retain independent fixes and all existing gates."
+}

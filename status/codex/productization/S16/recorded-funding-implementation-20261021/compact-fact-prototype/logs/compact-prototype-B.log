@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "<PROJECT>\artifacts\current-windows-20261019\ordinary-paper-policy-commissioning-20261021\compact_fact_prototype.py", line 322, in <module>
+    run(args.source.absolute(),args.output.absolute(),args.candidate)
+  File "<PROJECT>\artifacts\current-windows-20261019\ordinary-paper-policy-commissioning-20261021\compact_fact_prototype.py", line 276, in run
+    db.execute('INSERT INTO '+physical+' VALUES('+','.join('?' for _ in range(len(encoded)+1))+')',(*encoded,ordinal));rows+=1
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: c32.client_order_id

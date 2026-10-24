@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "<PROJECT>\artifacts\current-windows-20261019\ordinary-paper-policy-commissioning-20261021\compact_fact_prototype.py", line 328, in <module>
+    run(args.source.absolute(),args.output.absolute(),args.candidate)
+  File "<PROJECT>\artifacts\current-windows-20261019\ordinary-paper-policy-commissioning-20261021\compact_fact_prototype.py", line 246, in run
+    if any(field is None for field in fields):fail()
+                                              ^^^^^^
+  File "<PROJECT>\artifacts\current-windows-20261019\ordinary-paper-policy-commissioning-20261021\compact_fact_prototype.py", line 20, in fail
+    def fail():raise ValueError('FINITE_COMPACT_PROTOTYPE_INVALID')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: FINITE_COMPACT_PROTOTYPE_INVALID

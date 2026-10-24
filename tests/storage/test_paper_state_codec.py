@@ -198,5 +198,33 @@ class PaperStateCodecTests(unittest.TestCase):
             with self.subTest(expected=expected,base_missing=base is None),self.assertRaisesRegex(ValueError,'PAPER_STATE_CODEC_'):
                 codec.verify_write_state(encoded,run_id='run-1',revision=1,expected_hash=expected,previous_raw=base)
 
+    def test_private_window_retains_only_two_individually_bounded_records_and_no_partial_result(self):
+        codec=self.codec();rows={};previous=None;value=self.populated()
+        for revision in range(130):
+            value['runtime']['clock']=revision;raw=canonical(value)
+            encoded=codec.encode_state(raw,run_id='run-1',revision=revision,previous_raw=previous)
+            rows[revision]=(encoded,digest(raw));previous=raw
+        for revision in (3,127,128,129):
+            encoded,expected=rows[revision]
+            current,retained=codec._decode_state_record_window(encoded,run_id='run-1',revision=revision,
+                expected_hash=expected,read_previous=rows.__getitem__)
+            self.assertEqual([record.revision for record in retained],list(range(max(revision//128*128,revision-2),revision)))
+            for record in (*retained,current):
+                at=record.revision;size=0;links=0
+                while True:
+                    envelope=json.loads(rows[at][0]);size+=envelope['payload_bytes'];links+=1
+                    if envelope['kind']=='KEYFRAME':break
+                    at=envelope['base_revision']
+                self.assertEqual((record.chain_links,record.chain_payload_bytes),(links,size))
+                self.assertEqual(record.state_json,codec.decode_state(rows[record.revision][0],run_id='run-1',
+                    revision=record.revision,expected_hash=rows[record.revision][1],read_previous=rows.__getitem__))
+                self.assertFalse(hasattr(record,'previous'))
+        with self.assertRaisesRegex(ValueError,'STATE_HASH_MISMATCH'):
+            codec._decode_state_record_window(rows[127][0],run_id='run-1',revision=127,
+                expected_hash='sha256:'+'0'*64,read_previous=rows.__getitem__)
+        with patch.object(codec,'MAX_CHAIN_BYTES',1),self.assertRaisesRegex(ValueError,'CHAIN_BYTES_LIMIT'):
+            codec._decode_state_record_window(rows[127][0],run_id='run-1',revision=127,
+                expected_hash=rows[127][1],read_previous=rows.__getitem__)
+
 
 if __name__=='__main__':unittest.main()

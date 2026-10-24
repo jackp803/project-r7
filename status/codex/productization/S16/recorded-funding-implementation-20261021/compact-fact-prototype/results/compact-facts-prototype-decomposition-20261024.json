@@ -1,0 +1,709 @@
+{
+  "status": "RAM_ONLY_EXPERIMENT_OVERHEAD_ATTRIBUTION_NOT_NEW_FORMAT_OR30DAY_PASS",
+  "measured_prototype_sha256": "sha256:4759f07854cb167d68ee5a8cea6a6e8c3702968daafebf24ec500eb3e46177c1",
+  "measured_file_bytes": 18685952,
+  "actual_used_bytes_before": 18685952,
+  "actual_used_bytes_without_experiment_ordinal_unique": 17784832,
+  "measured_experiment_unique_index_savings": 901120,
+  "experiment_indices_removed_in_ram": 65,
+  "allocations_before": [
+    {
+      "physical_table": "blobs",
+      "logical_table": "blobs",
+      "bytes_including_all_owned_indices": 8728576
+    },
+    {
+      "physical_table": "model",
+      "logical_table": "model",
+      "bytes_including_all_owned_indices": 40960
+    },
+    {
+      "physical_table": "atoms",
+      "logical_table": "atoms",
+      "bytes_including_all_owned_indices": 5779456
+    },
+    {
+      "physical_table": "c0",
+      "logical_table": "paper_process_effects",
+      "bytes_including_all_owned_indices": 712704
+    },
+    {
+      "physical_table": "c1",
+      "logical_table": "approval_revocations",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c2",
+      "logical_table": "compatibility_evidence",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c3",
+      "logical_table": "external_close_reinterpretation_decisions",
+      "bytes_including_all_owned_indices": 20480
+    },
+    {
+      "physical_table": "c4",
+      "logical_table": "external_currentness_conflicts",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c5",
+      "logical_table": "external_manual_close_convergence_evidence",
+      "bytes_including_all_owned_indices": 24576
+    },
+    {
+      "physical_table": "c6",
+      "logical_table": "external_provider_ownership_evidence",
+      "bytes_including_all_owned_indices": 20480
+    },
+    {
+      "physical_table": "c7",
+      "logical_table": "human_approvals",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c8",
+      "logical_table": "lifecycle_command_receipts",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c9",
+      "logical_table": "lifecycle_owner_evidence",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c10",
+      "logical_table": "lifecycle_transitions",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c11",
+      "logical_table": "operational_mode_transitions",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c12",
+      "logical_table": "paper_entry_pause_requests",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c13",
+      "logical_table": "paper_feedback_publications",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c14",
+      "logical_table": "paper_funding_evidence",
+      "bytes_including_all_owned_indices": 20480
+    },
+    {
+      "physical_table": "c15",
+      "logical_table": "paper_funding_observations",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c16",
+      "logical_table": "paper_operational_selections",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c17",
+      "logical_table": "paper_order_result_current",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c18",
+      "logical_table": "paper_order_result_observations",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c19",
+      "logical_table": "paper_position_broker_observations",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c20",
+      "logical_table": "paper_position_current_projection",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c21",
+      "logical_table": "paper_position_lifecycle_execution_bindings",
+      "bytes_including_all_owned_indices": 294912
+    },
+    {
+      "physical_table": "c22",
+      "logical_table": "paper_position_lifecycle_projections",
+      "bytes_including_all_owned_indices": 360448
+    },
+    {
+      "physical_table": "c23",
+      "logical_table": "paper_process_checkpoints",
+      "bytes_including_all_owned_indices": 237568
+    },
+    {
+      "physical_table": "c24",
+      "logical_table": "paper_process_generations",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c25",
+      "logical_table": "paper_process_operations",
+      "bytes_including_all_owned_indices": 700416
+    },
+    {
+      "physical_table": "c26",
+      "logical_table": "paper_process_prefix_profiles",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c27",
+      "logical_table": "paper_process_publications",
+      "bytes_including_all_owned_indices": 598016
+    },
+    {
+      "physical_table": "c28",
+      "logical_table": "paper_process_published_prefixes",
+      "bytes_including_all_owned_indices": 241664
+    },
+    {
+      "physical_table": "c29",
+      "logical_table": "paper_process_runs",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c30",
+      "logical_table": "paper_process_storage_profiles",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c31",
+      "logical_table": "paper_runtime_conflicts",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c32",
+      "logical_table": "paper_runtime_objects",
+      "bytes_including_all_owned_indices": 32768
+    },
+    {
+      "physical_table": "c33",
+      "logical_table": "paper_trade_results",
+      "bytes_including_all_owned_indices": 20480
+    },
+    {
+      "physical_table": "c34",
+      "logical_table": "product_assessments",
+      "bytes_including_all_owned_indices": 28672
+    },
+    {
+      "physical_table": "c35",
+      "logical_table": "product_dispatch_claims",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c36",
+      "logical_table": "product_dispatch_finalization_outbox",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c37",
+      "logical_table": "product_dispatch_finalization_publications",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c38",
+      "logical_table": "product_dispatch_funding_outbox",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c39",
+      "logical_table": "product_dispatch_funding_publications",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c40",
+      "logical_table": "product_dispatch_generations",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c41",
+      "logical_table": "product_dispatch_intents",
+      "bytes_including_all_owned_indices": 20480
+    },
+    {
+      "physical_table": "c42",
+      "logical_table": "product_dispatch_namespace",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c43",
+      "logical_table": "product_dispatch_observations",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c44",
+      "logical_table": "product_dispatch_outbox",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c45",
+      "logical_table": "product_dispatch_publications",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c46",
+      "logical_table": "product_dispatch_runs",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c47",
+      "logical_table": "product_dispatch_stop_cleanup_claims",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c48",
+      "logical_table": "product_entry_decisions",
+      "bytes_including_all_owned_indices": 20480
+    },
+    {
+      "physical_table": "c49",
+      "logical_table": "product_entry_publications",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c50",
+      "logical_table": "product_exit_anchors",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c51",
+      "logical_table": "product_exit_decisions",
+      "bytes_including_all_owned_indices": 20480
+    },
+    {
+      "physical_table": "c52",
+      "logical_table": "product_exit_publications",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c53",
+      "logical_table": "product_position_outbox",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c54",
+      "logical_table": "product_position_publications",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c55",
+      "logical_table": "product_qualification_receipts",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c56",
+      "logical_table": "protection_registry_multiplicity_evidence",
+      "bytes_including_all_owned_indices": 28672
+    },
+    {
+      "physical_table": "c57",
+      "logical_table": "protection_registry_policy_interpretations",
+      "bytes_including_all_owned_indices": 20480
+    },
+    {
+      "physical_table": "c58",
+      "logical_table": "registry_research_namespace",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c59",
+      "logical_table": "schema_migrations",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c60",
+      "logical_table": "shadow_provider_checkpoints",
+      "bytes_including_all_owned_indices": 24576
+    },
+    {
+      "physical_table": "c61",
+      "logical_table": "strategy_intake_operations",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c62",
+      "logical_table": "strategy_intake_receipts",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c63",
+      "logical_table": "strategy_versions",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c64",
+      "logical_table": "validation_evidence",
+      "bytes_including_all_owned_indices": 40960
+    }
+  ],
+  "allocations_after": [
+    {
+      "physical_table": "blobs",
+      "logical_table": "blobs",
+      "bytes_including_all_owned_indices": 8728576
+    },
+    {
+      "physical_table": "model",
+      "logical_table": "model",
+      "bytes_including_all_owned_indices": 40960
+    },
+    {
+      "physical_table": "atoms",
+      "logical_table": "atoms",
+      "bytes_including_all_owned_indices": 5779456
+    },
+    {
+      "physical_table": "c0",
+      "logical_table": "paper_process_effects",
+      "bytes_including_all_owned_indices": 585728
+    },
+    {
+      "physical_table": "c1",
+      "logical_table": "approval_revocations",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c2",
+      "logical_table": "compatibility_evidence",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c3",
+      "logical_table": "external_close_reinterpretation_decisions",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c4",
+      "logical_table": "external_currentness_conflicts",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c5",
+      "logical_table": "external_manual_close_convergence_evidence",
+      "bytes_including_all_owned_indices": 20480
+    },
+    {
+      "physical_table": "c6",
+      "logical_table": "external_provider_ownership_evidence",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c7",
+      "logical_table": "human_approvals",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c8",
+      "logical_table": "lifecycle_command_receipts",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c9",
+      "logical_table": "lifecycle_owner_evidence",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c10",
+      "logical_table": "lifecycle_transitions",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c11",
+      "logical_table": "operational_mode_transitions",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c12",
+      "logical_table": "paper_entry_pause_requests",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c13",
+      "logical_table": "paper_feedback_publications",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c14",
+      "logical_table": "paper_funding_evidence",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c15",
+      "logical_table": "paper_funding_observations",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c16",
+      "logical_table": "paper_operational_selections",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c17",
+      "logical_table": "paper_order_result_current",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c18",
+      "logical_table": "paper_order_result_observations",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c19",
+      "logical_table": "paper_position_broker_observations",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c20",
+      "logical_table": "paper_position_current_projection",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c21",
+      "logical_table": "paper_position_lifecycle_execution_bindings",
+      "bytes_including_all_owned_indices": 225280
+    },
+    {
+      "physical_table": "c22",
+      "logical_table": "paper_position_lifecycle_projections",
+      "bytes_including_all_owned_indices": 286720
+    },
+    {
+      "physical_table": "c23",
+      "logical_table": "paper_process_checkpoints",
+      "bytes_including_all_owned_indices": 163840
+    },
+    {
+      "physical_table": "c24",
+      "logical_table": "paper_process_generations",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c25",
+      "logical_table": "paper_process_operations",
+      "bytes_including_all_owned_indices": 577536
+    },
+    {
+      "physical_table": "c26",
+      "logical_table": "paper_process_prefix_profiles",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c27",
+      "logical_table": "paper_process_publications",
+      "bytes_including_all_owned_indices": 475136
+    },
+    {
+      "physical_table": "c28",
+      "logical_table": "paper_process_published_prefixes",
+      "bytes_including_all_owned_indices": 167936
+    },
+    {
+      "physical_table": "c29",
+      "logical_table": "paper_process_runs",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c30",
+      "logical_table": "paper_process_storage_profiles",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c31",
+      "logical_table": "paper_runtime_conflicts",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c32",
+      "logical_table": "paper_runtime_objects",
+      "bytes_including_all_owned_indices": 28672
+    },
+    {
+      "physical_table": "c33",
+      "logical_table": "paper_trade_results",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c34",
+      "logical_table": "product_assessments",
+      "bytes_including_all_owned_indices": 24576
+    },
+    {
+      "physical_table": "c35",
+      "logical_table": "product_dispatch_claims",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c36",
+      "logical_table": "product_dispatch_finalization_outbox",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c37",
+      "logical_table": "product_dispatch_finalization_publications",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c38",
+      "logical_table": "product_dispatch_funding_outbox",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c39",
+      "logical_table": "product_dispatch_funding_publications",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c40",
+      "logical_table": "product_dispatch_generations",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c41",
+      "logical_table": "product_dispatch_intents",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c42",
+      "logical_table": "product_dispatch_namespace",
+      "bytes_including_all_owned_indices": 4096
+    },
+    {
+      "physical_table": "c43",
+      "logical_table": "product_dispatch_observations",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c44",
+      "logical_table": "product_dispatch_outbox",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c45",
+      "logical_table": "product_dispatch_publications",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c46",
+      "logical_table": "product_dispatch_runs",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c47",
+      "logical_table": "product_dispatch_stop_cleanup_claims",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c48",
+      "logical_table": "product_entry_decisions",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c49",
+      "logical_table": "product_entry_publications",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c50",
+      "logical_table": "product_exit_anchors",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c51",
+      "logical_table": "product_exit_decisions",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c52",
+      "logical_table": "product_exit_publications",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c53",
+      "logical_table": "product_position_outbox",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c54",
+      "logical_table": "product_position_publications",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c55",
+      "logical_table": "product_qualification_receipts",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c56",
+      "logical_table": "protection_registry_multiplicity_evidence",
+      "bytes_including_all_owned_indices": 24576
+    },
+    {
+      "physical_table": "c57",
+      "logical_table": "protection_registry_policy_interpretations",
+      "bytes_including_all_owned_indices": 16384
+    },
+    {
+      "physical_table": "c58",
+      "logical_table": "registry_research_namespace",
+      "bytes_including_all_owned_indices": 4096
+    },
+    {
+      "physical_table": "c59",
+      "logical_table": "schema_migrations",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c60",
+      "logical_table": "shadow_provider_checkpoints",
+      "bytes_including_all_owned_indices": 20480
+    },
+    {
+      "physical_table": "c61",
+      "logical_table": "strategy_intake_operations",
+      "bytes_including_all_owned_indices": 12288
+    },
+    {
+      "physical_table": "c62",
+      "logical_table": "strategy_intake_receipts",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c63",
+      "logical_table": "strategy_versions",
+      "bytes_including_all_owned_indices": 8192
+    },
+    {
+      "physical_table": "c64",
+      "logical_table": "validation_evidence",
+      "bytes_including_all_owned_indices": 36864
+    }
+  ],
+  "growing_component_bytes": 16990208,
+  "static_component_bytes": 794624,
+  "generous_ordinal_column_credit": 259848,
+  "optimistic_projected_journal_bytes": 12046653824,
+  "measured_public_archive_bytes": 3622328474,
+  "allowed_total_public_archive_bytes": 8589934592,
+  "optimistic_journal_plus_measured_archive_bytes": 15668982298,
+  "optimistic_journal_plus_allowed_archive_bytes": 20636588416,
+  "complete_backup_bound_bytes": 17179869184,
+  "source_writes": 0,
+  "measured_prototype_writes": 0,
+  "note": "Exact RAM Btree/index attribution; linear sample assumptions remain, not actual30day volume; no original rows deleted or product limits changed",
+  "wall_seconds": 0.2053709999890998,
+  "peak_working_set_bytes": 64671744,
+  "working_set_bytes": 64671744,
+  "peak_pagefile_bytes": 48340992
+}

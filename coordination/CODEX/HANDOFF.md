@@ -1,3 +1,43 @@
+# E resource baseline: full256/keyframes/protection recover; optimize cold audit — 2026-10-24
+
+Source a189797f; all five exact source hashes in evidence. Actual full2564h cache,
+697ticks, max0.416/p950.326s; cold successor attachment0.590s, first management
+0.951s. Same protected position retained, old owner actually fenced; no healthy
+credit until genuine new instance audit. Keyframes0..768every128 checked.
+This is controlled source owner/policy/native boundary, NOT selected policy,
+native process-death,30day capacity or real-time qualification. Public20/19.
+
+Demonstrated next defect: cold audit of roughly242launch operations took82s wall
+while parent protection continued (838actual ops by end). Preserve all immutable
+facts and budgets; improve redundant decode work, do not merely raise timeout.
+Suggested minimal E6 read refinement: opaque source-owned verified-predecessor
+record with original run/revision/hash/chain-count/payload-byte coverage in the
+existing exact-epoch cache. Decode actual next physical envelope once, preserve
+every original intermediate/full hash and128/32MiB bounds. Standalone fresh
+reader remains complete. Never accept a caller/JSON base proof or permission.
+TDD missing/wrong/corrupt ancestor/base, exact raw bytes/limits, foreign/source
+mutation and reopen/no-proof. Existing cache4rows/64MiB raw bound remains.
+
+Private batch audit currently decodes full operation again in EFFECTS,
+CHECKPOINTS and lexical PUBLICATIONS phases even after OPERATIONS already checked
+all exact logical states/effect/publication/prefix hashes in the same fixed
+snapshot/qualified immutable epoch. Can validate independent inventory metadata
+against those already verified actual facts (still catch orphans/negative/extra/
+missing rows) rather than redoing financial parsing. Must invalidate/reset on
+unknown/external/schema writes, preserve original pending snapshot, clocks/counts
+and exact per-phase source coverage. No financial contract/authority change.
+
+Actual controlled SQLite source snapshot retained ART only:
+e6-256bar-recovery-20261024/controlled-source-snapshot.sqlite (SHA in result).
+Use readonly snapshot to remeasure cold audit; no auth/config/permission copied.
+Do not overwrite old measurement logs. Same Master/branch. Whole30day disk/RSS/
+CPU/cold restart/contention/backup, emergency ticker route, remaining original
+policy/research/admission and new native build/PQR still required. No encoded
+ordinary rollout, real observation, capital/private API/keys/orders/LIVE/CI.
+Evidence: status/codex/productization/S16/recorded-funding-implementation-20261021/e6-full256-recovery-baseline/disposition.json
+
+---
+
 # E6 D functional source passes; execute E whole-product acceptance — 2026-10-24
 
 New prefix profiles use management_snapshot -> recover_current; legacy retains
